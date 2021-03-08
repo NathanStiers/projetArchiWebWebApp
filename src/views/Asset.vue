@@ -11,7 +11,15 @@
 
 <script>
 
+const toolbox = require("../Toolbox.js");
+
 export default {
-  name: 'Asset'
+  name: 'Asset',
+  beforeMount() {
+    if(!toolbox.checkIfConnected()){
+      this.$router.push({ name: 'Home' })
+    }
+  }
 }
+
 </script>

@@ -8,7 +8,14 @@
 
 <script>
 
+const toolbox = require("../Toolbox.js");
+
 export default {
-  name: 'Subscribe'
+  name: 'Subscribe',
+  beforeMount() {
+    if(toolbox.checkIfConnected()){
+      this.$router.push({ name: 'Wallet' })
+    }
+  }
 }
 </script>

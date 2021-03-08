@@ -1,16 +1,70 @@
 <template>
   <div class="login">
     <h1>Login page</h1>
-      <p>formulaire de connexion</p>
-      <p>bouton d'envoi de formulaire</p>
-      <p>bouton de mot de passe oublié</p>
-      <p>bouton pour garder la session active</p>
+      <FormLogin id="formLogin" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged"/>
+      <p>Rester connecté</p>
+      <button>J'ai oublié mon mdp</button>
+      <button v-on:click="connectUser()">Envoyer les infos</button>
   </div>
 </template>
 
 <script>
 
+import axios from "axios";
+import FormLogin from '@/components/loginComponent/formLogin.vue'
+
+const toolbox = require("../Toolbox.js");
+
 export default {
-  name: 'Login'
+  name: 'Login',
+  data() {
+    return{
+      mail: "",
+      password: "",
+      uri: "http://localhost:3000"
+    }
+  },
+  components: {
+    FormLogin
+  },
+  methods: {
+    onValueMailChanged(newValue) {
+      console.log("Le mail est : " + newValue)
+      this.mail = newValue;
+    },
+    onValuePasswordChanged(newValue) {
+      console.log("Le password est : " + newValue)
+      this.password = newValue;
+    },
+    connectUser() {
+      axios
+        .post(this.uri+"/user/connect", {
+          mail : this.mail,
+          password : this.password
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            let d = new Date();
+            d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
+            let expires = "expires=" + d.toUTCString();
+            let data_user = response.data;
+            document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
+            this.$router.push({ name: 'Wallet' })
+          }else{
+            alert("pas bon")
+          }
+        })
+        .catch((error) => {
+          if(error.response.status === 401 || error.response.status === 403){
+            alert(error.response.data)
+          }
+        });
+    },
+  },
+  beforeMount() {
+    if(toolbox.checkIfConnected()){
+      this.$router.push({ name: 'Wallet' })
+    }
+  }
 }
 </script>
