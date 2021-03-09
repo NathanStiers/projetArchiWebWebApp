@@ -1,5 +1,5 @@
 <template>
-    <div class="walletCard">
+    <div class="walletCard" v-on:click="$router.push({ name: 'Asset', params:{id:wallet.id} })">
         <div class="deleteCard" v-on:click="deleteWallet()">X</div>
         <p>Portefeuille {{index+1}}</p>
         <p>{{wallet.label}}</p>

@@ -2,9 +2,9 @@
   <Menu/>
   <div class="wallet">
     <div v-for="(wallet, index) in walletList" v-bind:key="wallet.id">
-      <WalletCard v-bind:wallet="wallet" v-bind:index="index"/>  
+      <WalletCard class="walletItem" v-bind:wallet="wallet" v-bind:index="index" />  
     </div>
-    <AddWalletCard v-if="!walletLeft<1">bouton d'ajout de wallet si possible</AddWalletCard>
+    <AddWalletCard class="walletItem" v-if="!walletLeft<1">bouton d'ajout de wallet si possible</AddWalletCard>
   </div>
 </template>
 
@@ -65,6 +65,10 @@ export default {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
+}
+
+.walletItem{
+  padding: 2%;
 }
 
 </style>

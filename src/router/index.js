@@ -29,7 +29,7 @@ const routes = [
     component: Wallet
   },
   {
-    path: '/asset',
+    path: '/wallet/:id',
     name: 'Asset',
     component: Asset
   },
