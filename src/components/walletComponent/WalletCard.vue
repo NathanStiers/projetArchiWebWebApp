@@ -60,14 +60,19 @@ export default {
     align-items: center;
     font-size: large;
     margin-bottom: 10%;
+    cursor: pointer;
 }
 
 .deleteCard{
     align-self: flex-end;
     margin-right: 5%;
-    color: red;
-    cursor: pointer;
+    color: black;
+    cursor: url("../../assets/danger-cursor.png"), auto;
     font-size: larger;
+}
+
+.deleteCard:hover{
+    color: red;
 }
 
 </style>
