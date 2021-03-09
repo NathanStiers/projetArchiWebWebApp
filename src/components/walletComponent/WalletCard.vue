@@ -22,7 +22,6 @@ export default {
     },
     methods:{
         deleteWallet(){
-            console.log("deleted wallet " + this.wallet.id)
             axios
                 .post(this.uri+"/wallets/delete", {
                     id : this.wallet.id
@@ -31,7 +30,7 @@ export default {
                 })
                 .then((response) => {
                 if (response.status === 200) {
-                    this.$router.replace({ name: 'Wallet' })
+                    this.$router.replace({ name: 'Home' })
                 }else{
                     alert("Erreur inconnue")
                 }
@@ -60,6 +59,7 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: large;
+    margin-bottom: 10%;
 }
 
 .deleteCard{

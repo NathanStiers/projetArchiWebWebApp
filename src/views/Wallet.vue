@@ -41,7 +41,6 @@ export default {
         })
         .then((response) => {
           if (response.status === 200) {
-            console.log(response)
             this.walletList = response.data.wallet_list
             let max = response.data.role === "premium" ? 10 : 3
             this.walletLeft = max - this.walletList.length
