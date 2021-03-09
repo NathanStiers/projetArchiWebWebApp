@@ -29,12 +29,18 @@
     "env": {
       "node": true
     },
+    "plugins": [
+      "vue"
+    ],
     "extends": [
       "plugin:vue/vue3-essential",
+      "plugin:vue/vue3-recommended",
       "eslint:recommended"
     ],
+    "parser": "vue-eslint-parser",
     "parserOptions": {
-      "parser": "babel-eslint"
+      "parser": "babel-eslint",
+      "sourceType": "module"
     },
     "rules": {}
   },

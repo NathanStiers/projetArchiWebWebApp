@@ -60,7 +60,7 @@ export default {
             alert(error.response.data)
           }
         });
-    },
+    }
   },
   beforeMount() {
     if(toolbox.checkIfConnected()){
