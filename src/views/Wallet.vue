@@ -1,4 +1,5 @@
 <template>
+  <Menu/>
   <div class="wallet">
     <h1>Wallet page</h1>
       <p>liste des wallets</p>
@@ -11,9 +12,13 @@
 <script>
 
 const toolbox = require("../Toolbox.js");
+import Menu from '@/components/menu/Header.vue'
 
 export default {
   name: 'Wallet',
+  components:{
+    Menu
+  },
   beforeMount() {
     if(!toolbox.checkIfConnected()){
       this.$router.push({ name: 'Home' })

@@ -1,4 +1,5 @@
 <template>
+  <Menu/>
   <div class="home" id="homeContainer">
     <WelcomeMessage id="welcome"/>
     <SubAndLogButtons id="subAndLog"/>
@@ -9,6 +10,7 @@
 
 import WelcomeMessage from '@/components/homeComponent/WelcomeMessage.vue'
 import SubAndLogButtons from '@/components/homeComponent/SubAndLogButtons.vue'
+import Menu from '@/components/menu/HeaderRestrict.vue'
 
 const toolbox = require("../Toolbox.js");
 
@@ -16,7 +18,8 @@ export default {
   name: 'Home',
   components: {
     WelcomeMessage,
-    SubAndLogButtons
+    SubAndLogButtons,
+    Menu
   },
   beforeMount() {
     if(toolbox.checkIfConnected()){

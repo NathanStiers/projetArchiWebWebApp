@@ -1,4 +1,5 @@
 <template>
+  <Menu/>
   <div class="login">
     <h1>Login page</h1>
       <FormLogin id="formLogin" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged"/>
@@ -11,7 +12,8 @@
 <script>
 
 import axios from "axios";
-import FormLogin from '@/components/loginComponent/formLogin.vue'
+import FormLogin from '@/components/loginComponent/FormLogin.vue'
+import Menu from '@/components/menu/HeaderRestrict.vue'
 
 const toolbox = require("../Toolbox.js");
 
@@ -25,7 +27,8 @@ export default {
     }
   },
   components: {
-    FormLogin
+    FormLogin,
+    Menu
   },
   methods: {
     onValueMailChanged(newValue) {
@@ -51,7 +54,7 @@ export default {
             document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
             this.$router.push({ name: 'Wallet' })
           }else{
-            alert("pas bon")
+            alert("Erreur dans l'envoi du formulaire")
           }
         })
         .catch((error) => {

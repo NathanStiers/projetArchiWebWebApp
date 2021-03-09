@@ -1,7 +1,7 @@
 <template>
-    <div id="welcomeContainer">
-        mail : <input v-model="mail" type="email" name="" id="">
-        password : <input v-model="password" type="password" name="" id="">
+    <div>
+        Mail : <input v-model="mail" type="email" name="" id="">
+        Mot de passe : <input v-model="password" type="password" name="" id="">
     </div>
 </template>
 

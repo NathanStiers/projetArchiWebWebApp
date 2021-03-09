@@ -1,4 +1,5 @@
 <template>
+  <Menu/>
   <div class="asset">
     <h1>Asset page</h1>
       <p>liste des actifs</p>
@@ -12,9 +13,13 @@
 <script>
 
 const toolbox = require("../Toolbox.js");
+import Menu from '@/components/menu/Header.vue'
 
 export default {
   name: 'Asset',
+  components:{
+    Menu
+  },
   beforeMount() {
     if(!toolbox.checkIfConnected()){
       this.$router.push({ name: 'Home' })

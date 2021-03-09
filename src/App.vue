@@ -1,11 +1,16 @@
 <template>
-  <div id="nav">
-    <router-link to="/wallet">Wallets page</router-link> |
-    <router-link to="/statistics">Statistics page</router-link> |
-    <router-link to="/premium">Premium page</router-link>
+  <div id="app">
+    <router-view/>
   </div>
-  <router-view/>
 </template>
+
+<script>
+
+export default {
+  name: 'App',
+}
+
+</script>
 
 <style>
 #app {
@@ -13,19 +18,5 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-  text-align: right;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>
