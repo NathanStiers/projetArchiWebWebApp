@@ -31,23 +31,18 @@ export default {
     FormSubscribe
   },methods: {
     onValueNameChanged(newValue) {
-      console.log("Le name est : " + newValue)
-      this.mail = newValue;
+      this.name = newValue;
     },
     onValueSurnameChanged(newValue) {
-      console.log("Le surname est : " + newValue)
-      this.password = newValue;
+      this.surname = newValue;
     },
     onValueMailChanged(newValue) {
-      console.log("Le mail est : " + newValue)
       this.mail = newValue;
     },
     onValuePasswordChanged(newValue) {
-      console.log("Le password est : " + newValue)
       this.password = newValue;
     },
     onValuePasswordConfirmChanged(newValue) {
-      console.log("Le password confirm est : " + newValue)
       this.confirmPassword = newValue;
     },
     createUser() {

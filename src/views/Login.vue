@@ -32,11 +32,9 @@ export default {
   },
   methods: {
     onValueMailChanged(newValue) {
-      console.log("Le mail est : " + newValue)
       this.mail = newValue;
     },
     onValuePasswordChanged(newValue) {
-      console.log("Le password est : " + newValue)
       this.password = newValue;
     },
     connectUser() {
