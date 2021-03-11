@@ -50,9 +50,9 @@ export default {
 
 .walletCard{
     border: thin solid black;
-    min-height: 30vmin;
+    min-height: 15.5rem;
     min-width: 60vmin;
-    max-height: 60vmin;
+    max-height: 15.5rem;
     max-width: 70vmin;
     display: flex;
     flex-flow: column nowrap;
