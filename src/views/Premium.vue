@@ -33,7 +33,13 @@ export default {
         })
         .then((response) => {
           if (response.status === 200) {
+            let d = new Date();
+            d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
+            let expires = "expires=" + d.toUTCString();
+            let data_user = response.data;
+            document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
             alert("Félicitation, vous possédez maintenant un compte premium")
+            this.$router.push({ name: 'Wallet' })
           }else{
             alert("Erreur dans l'envoi du formulaire")
           }

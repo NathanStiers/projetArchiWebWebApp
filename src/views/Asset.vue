@@ -3,11 +3,10 @@
   <h1>Asset page</h1>
   <div class="asset">
     <div v-for="asset in assetList" v-bind:key="asset.ticker">
-      <AssetCard class="assetItem" v-bind:asset="asset" />  
+      <AssetCard class="assetItem" v-bind:asset="asset" v-bind:apiData="apiData[asset.ticker]"/>  
     </div>
   </div>
-  <p>informations pour chacun d'eux</p>
-      <p>bouton d'alerte de prix</p>
+  <p>bouton d'alerte de prix</p>
 </template>
 
 <script>
@@ -22,7 +21,8 @@ export default {
   data(){
     return{
       uri: "http://localhost:3000",
-      assetList: []
+      assetList: [],
+      apiData: []
     }
   },
   components:{
@@ -34,16 +34,22 @@ export default {
       this.$router.push({ name: 'Home' })
       return;
     }
-    let tmp = document.URL.split('/')
-    let wallet_id = tmp[tmp.length-1]
+    let wallet_id = this.$router.currentRoute._rawValue.params.id
         axios
         .post(this.uri+"/assets/"+wallet_id+"/fetch", {}, {
           headers : {token : toolbox.readCookie("Token")}
         })
         .then((response) => {
           if (response.status === 200) {
-            this.assetList = response.data
-            console.log(this.assetList)
+            if('apiDataCrypto' in response.data){
+              this.apiData = toolbox.transformDictFromCryptoAPI(response.data.apiDataCrypto)
+              this.assetList = response.data.resultSQL
+            } else {
+              response.data.forEach(el => {
+                this.apiData[el.ticker] = {type : "null"}
+              })
+              this.assetList = response.data
+            }
           }else{
             alert("Erreur inconnue")
           }

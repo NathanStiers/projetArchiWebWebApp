@@ -4,7 +4,7 @@
     <div v-for="(wallet, index) in walletList" v-bind:key="wallet.id">
       <WalletCard class="walletItem" v-bind:wallet="wallet" v-bind:index="index" />  
     </div>
-    <AddWalletCard class="walletItem" v-if="!walletLeft<1">bouton d'ajout de wallet si possible</AddWalletCard>
+    <AddWalletCard class="walletItem" v-if="!walletLeft<1"/>
   </div>
 </template>
 
@@ -42,6 +42,7 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             this.walletList = response.data.wallet_list
+            console.log(response.data.role)
             let max = response.data.role === "premium" ? 10 : 3
             this.walletLeft = max - this.walletList.length
           }else{
