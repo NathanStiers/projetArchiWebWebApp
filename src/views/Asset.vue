@@ -5,6 +5,7 @@
     <div v-for="asset in assetList" v-bind:key="asset.ticker">
       <AssetCard class="assetItem" v-bind:asset="asset" v-bind:apiData="apiData[asset.ticker]"/>  
     </div>
+    <AddAssetCard class="assetItem"/>
   </div>
   <p>bouton d'alerte de prix</p>
 </template>
@@ -14,6 +15,7 @@
 const toolbox = require("../Toolbox.js");
 import Menu from '@/components/menu/Header.vue'
 import AssetCard from '@/components/assetComponent/AssetCard.vue'
+import AddAssetCard from '@/components/assetComponent/AddAssetCard.vue'
 import axios from "axios";
 
 export default {
@@ -27,7 +29,8 @@ export default {
   },
   components:{
     Menu,
-    AssetCard
+    AssetCard,
+    AddAssetCard
   },
   beforeMount() {
     if(!toolbox.checkIfConnected()){

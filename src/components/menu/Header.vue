@@ -8,13 +8,24 @@
       <router-link class="routerlink" to="/statistics">Statistics</router-link> 
       <span class="routerlink">|</span>
       <router-link class="routerlink" to="/premium">Premium</router-link>
+      <span class="routerlink">|</span>
+      <router-link class="routerlink" v-on:click="onLogout()" to="/">Logout</router-link>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'Menu'
+  name: 'Menu',
+  methods: {
+    onLogout(){
+      let d = new Date();
+      d.setTime(d.getTime() - 1);
+      let expires = "expires=" + d.toUTCString();
+      document.cookie = "Token=" + ";" + expires + ";path=/"
+    }
+  }
 }
+
 </script>
 
 <style scoped>

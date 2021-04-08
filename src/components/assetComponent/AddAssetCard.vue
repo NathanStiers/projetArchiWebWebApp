@@ -1,23 +1,25 @@
 <template>
     <div class="addWallet" v-on:click="toggleModal()">
         <p>+</p>
-        <p>Ajouter un nouveau</p>
-        <p>portefeuille</p>
+        <p>Ajouter un nouvel</p>
+        <p>actif</p>
     </div>
     <vue-final-modal
       v-model="showModal"
       classes="modal-container"
       content-class="modal-content">
-      <span class="modal__title">Create a new wallet</span>
+      <span class="modal__title">Add a new asset</span>
       <div class="modal__content">
-        Label : <input v-model="label" type="text" name="" id="" maxlength="50">
-        <br/><br/>
-        Type : <select v-model="type" name="" id="">
-            <option v-for="type in typeList" v-bind:key="type.id" v-bind:type="type" >{{type}}</option>
+        Type : <select v-model="assetName" name="" id="">
+            <option v-for="asset in assetList" v-bind:key="asset.id" >{{asset.label}}</option>
         </select>
+        <br/><br/>
+        Quantité : <input v-model="quantity" type="number" name="quantity" id="" step="0.000000001">
+        <br/><br/>
+        Montant investit : <input v-model="invested_amount" type="number" name="invested_amount" id="" step="0.001">
       </div>
       <div class="modal__action">
-        <button class="vfm-btn" v-on:click="createWallet()">confirm</button>
+        <button class="vfm-btn" v-on:click="addAsset()">confirm</button>
         <button class="vfm-btn" v-on:click="toggleModal()">cancel</button>
       </div>
     </vue-final-modal>
@@ -34,17 +36,26 @@ export default {
         return{
             uri: "http://localhost:3000",
             showModal: false,
-            label: "",
-            type: "",
-            typeList: []
+            quantity: 0,
+            invested_amount: 0,
+            assetName: "",
+            assetList: []
         }
     },
     methods:{
-        createWallet(){
+        addAsset(){
+            let assetId = -1;
+            this.assetList.forEach(el => {
+                if(el.label === this.assetName){
+                    assetId = el.id;
+                }
+            })
             axios
-                .post(this.uri+"/wallets/create", {
-                    label: this.label,
-                    type: this.type
+                .post(this.uri+"/assets/add", {
+                    quantity: this.quantity,
+                    invested_amount: this.invested_amount,
+                    asset_id: assetId,
+                    wallet_id: this.$router.currentRoute._rawValue.params.id
                 }, {
                     headers : {token : toolbox.readCookie("Token")}
                 })
@@ -66,11 +77,13 @@ export default {
         }
     },
     beforeMount(){
+        let wallet_id = this.$router.currentRoute._rawValue.params.id
         axios
-        .get(this.uri+"/misc/fetchAllTypes")
+        .get(this.uri+"/misc/fetchAssetsFromType/"+wallet_id)
         .then((response) => {
           if (response.status === 200) {
-            this.typeList = response.data
+            this.assetList = response.data.assets
+            console.log(this.assetList)
           }else{
             alert("Erreur inconnue")
           }

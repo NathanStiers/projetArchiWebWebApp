@@ -4,7 +4,7 @@
     <h1>Login page</h1>
       <FormLogin id="formLogin" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged"/>
       <p>Rester connecté</p>
-      <button>J'ai oublié mon mdp</button>
+      <button v-on:click="forgotPassword()">J'ai oublié mon mdp</button>
       <button v-on:click="connectUser()">Envoyer les infos</button>
   </div>
 </template>
@@ -51,6 +51,24 @@ export default {
             let data_user = response.data;
             document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
             this.$router.push({ name: 'Wallet' })
+          }else{
+            alert("Erreur dans l'envoi du formulaire")
+          }
+        })
+        .catch((error) => {
+          if(error.response.status === 401 || error.response.status === 403){
+            alert(error.response.data)
+          }
+        });
+    },
+    forgotPassword(){
+      axios
+        .post(this.uri+"/user/forgotPwd", {
+          mail : this.mail
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            alert("Email envoyé à : " + this.mail)
           }else{
             alert("Erreur dans l'envoi du formulaire")
           }
