@@ -3,7 +3,6 @@
   <div class="login">
     <h1>Login page</h1>
       <FormLogin id="formLogin" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged"/>
-      <p>Rester connecté</p>
       <button v-on:click="forgotPassword()">J'ai oublié mon mdp</button>
       <button v-on:click="connectUser()">Envoyer les infos</button>
   </div>
@@ -38,6 +37,14 @@ export default {
       this.password = newValue;
     },
     connectUser() {
+      if(this.mail === '' || this.password === ''){
+        alert('Please fill in all fields of the form')
+        return;
+      }
+      if(!/\S+@\S+\.\S+/.test(this.mail)){
+        alert('The mail does not correspond to the right format')
+        return;
+      }
       axios
         .post(this.uri+"/user/connect", {
           mail : this.mail,
@@ -52,16 +59,22 @@ export default {
             document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
             this.$router.push({ name: 'Wallet' })
           }else{
-            alert("Erreur dans l'envoi du formulaire")
+            alert(response.data)
           }
         })
         .catch((error) => {
-          if(error.response.status === 401 || error.response.status === 403){
-            alert(error.response.data)
-          }
+          alert(error.response.data)
         });
     },
     forgotPassword(){
+      if(this.mail === ''){
+        alert('Please fill in your email')
+        return;
+      }
+      if(!/\S+@\S+\.\S+/.test(this.mail)){
+        alert('The mail does not correspond to the right format')
+        return;
+      }
       axios
         .post(this.uri+"/user/forgotPwd", {
           mail : this.mail
@@ -70,13 +83,11 @@ export default {
           if (response.status === 200) {
             alert("Email envoyé à : " + this.mail)
           }else{
-            alert("Erreur dans l'envoi du formulaire")
+            alert(response.data)
           }
         })
         .catch((error) => {
-          if(error.response.status === 401 || error.response.status === 403){
-            alert(error.response.data)
-          }
+          alert(error.response.data)
         });
     }
   },
