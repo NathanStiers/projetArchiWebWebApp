@@ -32,14 +32,14 @@ const toolbox = require("../../Toolbox.js");
 
 export default {
     name: 'AddWalletCard',
+    props: ['assetList'],
     data(){
         return{
             uri: "http://localhost:3000",
             showModal: false,
             quantity: 0,
             invested_amount: 0,
-            assetName: "",
-            assetList: []
+            assetName: ""
         }
     },
     methods:{
@@ -75,24 +75,6 @@ export default {
         toggleModal(){
             this.showModal = !this.showModal
         }
-    },
-    beforeMount(){
-        let wallet_id = this.$router.currentRoute._rawValue.params.id
-        axios
-        .get(this.uri+"/misc/fetchAssetsFromType/"+wallet_id)
-        .then((response) => {
-          if (response.status === 200) {
-            this.assetList = response.data.assets
-            console.log(this.assetList)
-          }else{
-            alert("Erreur inconnue")
-          }
-        })
-        .catch((error) => {
-          if(error.response.status === 401 || error.response.status === 403){
-            alert(error.response.data)
-          }
-        });
     }
 }
 </script>

@@ -19,7 +19,7 @@ export default {
   },
   beforeMount() {
     if(!toolbox.checkIfConnected()){
-      this.$router.push({ name: 'Home' })
+      this.$router.replace({ name: 'Home' })
     }
   }
 }

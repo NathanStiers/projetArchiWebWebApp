@@ -4,16 +4,13 @@
         <p>Ajouter un nouveau</p>
         <p>portefeuille</p>
     </div>
-    <vue-final-modal
-      v-model="showModal"
-      classes="modal-container"
-      content-class="modal-content">
+    <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
       <span class="modal__title">Create a new wallet</span>
       <div class="modal__content">
         Label : <input v-model="label" type="text" name="" id="" maxlength="50">
         <br/><br/>
         Type : <select v-model="type" name="" id="">
-            <option v-for="type in typeList" v-bind:key="type.id" v-bind:type="type" >{{type}}</option>
+            <option v-for="type in types" v-bind:key="type.id" v-bind:type="type" >{{type}}</option>
         </select>
       </div>
       <div class="modal__action">
@@ -30,56 +27,39 @@ const toolbox = require("../../Toolbox.js");
 
 export default {
     name: 'AddWalletCard',
+    props: ['types'],
     data(){
         return{
             uri: "http://localhost:3000",
             showModal: false,
             label: "",
-            type: "",
-            typeList: []
+            type: ""
         }
     },
     methods:{
         createWallet(){
-            axios
-                .post(this.uri+"/wallets/create", {
-                    label: this.label,
-                    type: this.type
-                }, {
-                    headers : {token : toolbox.readCookie("Token")}
-                })
-                .then((response) => {
-                if (response.status === 201) {
-                    this.$router.replace({ name: 'Home' })
-                }else{
-                    alert("Erreur inconnue")
-                }
-                })
-                .catch((error) => {
-                if(error.response.status === 401 || error.response.status === 403){
-                    alert(error.response.data)
-                }
-            });
+          if(this.label === "" || this.type === ""){
+            alert('Please fill in all fields of the form')
+            return;
+          }
+          axios.post(this.uri+"/wallets/create", {
+            label: this.label,
+            type: this.type
+          }, {
+            headers : {token : toolbox.readCookie("Token")}
+          }).then((response) => {
+            if (response.status === 201) {
+              this.$router.replace({ name: 'Home' })
+            }else{
+              alert(response.data)
+            }
+          }).catch((error) => {
+            alert(error.response.data)
+          });
         },
         toggleModal(){
-            this.showModal = !this.showModal
+          this.showModal = !this.showModal
         }
-    },
-    beforeMount(){
-        axios
-        .get(this.uri+"/misc/fetchAllTypes")
-        .then((response) => {
-          if (response.status === 200) {
-            this.typeList = response.data
-          }else{
-            alert("Erreur inconnue")
-          }
-        })
-        .catch((error) => {
-          if(error.response.status === 401 || error.response.status === 403){
-            alert(error.response.data)
-          }
-        });
     }
 }
 </script>

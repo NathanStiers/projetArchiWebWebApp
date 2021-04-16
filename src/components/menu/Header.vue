@@ -3,7 +3,7 @@
       <router-link id="logo" to="/" exact>
         <img src="../../assets/logo.png" alt="" >
       </router-link>
-      <router-link class="routerlink" to="/wallet">Gestion</router-link> 
+      <router-link class="routerlink" to="/wallets">Gestion</router-link> 
       <span class="routerlink">|</span>
       <router-link class="routerlink" to="/statistics">Statistics</router-link> 
       <span class="routerlink">|</span>

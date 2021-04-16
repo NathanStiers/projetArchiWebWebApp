@@ -15,7 +15,7 @@
             <span v-on:click="sendNewValueInvest($event)">(V)</span>
             <span v-on:click="toggleEditigingInvest()">(X)</span>
         </div>
-        <p v-if="apiData.type=='Crypto-actifs'">Valeur actuelle : {{(asset.quantity * apiData.price).toFixed(2)}} €</p>
+        <p v-if="type=='Crypto-assets'">Valeur actuelle : {{(asset.quantity * apiData.price).toFixed(2)}} €</p>
     </div>
         <vue-final-modal
         v-model="showModal"
@@ -23,10 +23,10 @@
         content-class="modal-content">
         <span class="modal__title">Deeper information</span>
         <div class="modal__content">
-            <p>PRU : {{asset.invested_amount/asset.quantity}} €</p>
-            <p v-if="apiData.type=='Crypto-actifs'">Max_supply : {{apiData.max_supply}} unités</p>
-            <p v-if="apiData.type=='Crypto-actifs'">Total_supply : {{apiData.total_supply}} unités</p>
-            <p v-if="apiData.type=='Crypto-actifs'">Market_cap : {{apiData.market_cap}} €</p>
+            <p>PRU : {{(asset.invested_amount/asset.quantity).toFixed(2)}} €</p>
+            <p v-if="type==='Crypto-assets'">Max_supply : {{apiData.max_supply}} unités</p>
+            <p v-if="type==='Crypto-assets'">Total_supply : {{apiData.total_supply}} unités</p>
+            <p v-if="type==='Crypto-assets'">Market_cap : {{apiData.market_cap}} €</p>
         </div>
         <div class="modal__action">
             <button class="vfm-btn" v-on:click="deleteAsset()">Delete asset ?</button>
@@ -44,7 +44,7 @@ const toolbox = require("../../Toolbox.js");
 
 export default {
     name: 'AssetCard',
-    props: ['asset', 'apiData'],
+    props: ['asset', 'apiData', 'type'],
     data(){
         return{
             uri: "http://localhost:3000",
@@ -62,10 +62,10 @@ export default {
             this.isEditingQty = false
             this.isEditingInvest = !this.isEditingInvest
         },
-        sendNewValueQty($event){
+        sendNewValueQty(event){
             this.isEditingQty = !this.isEditingQty
             let wallet_id = this.$router.currentRoute._rawValue.params.id
-            let newValue = $event.target.parentNode.children[0].value
+            let newValue = event.target.parentNode.children[0].value
             let id = this.$props.asset.id
            axios
                 .post(this.uri+"/assets/changeQty", {
@@ -84,15 +84,13 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    if(error.response.status === 401 || error.response.status === 403){
-                        alert(error.response.data)
-                    }
+                    alert(error.response.data)
                 });
         },
-        sendNewValueInvest($event){
+        sendNewValueInvest(event){
             this.isEditingInvest = !this.isEditingInvest
             let wallet_id = this.$router.currentRoute._rawValue.params.id
-            let newValue = $event.target.parentNode.children[0].value
+            let newValue = event.target.parentNode.children[0].value
             let id = this.$props.asset.id
            axios
                 .post(this.uri+"/assets/changeInvestment", {
@@ -111,16 +109,14 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    if(error.response.status === 401 || error.response.status === 403){
-                        alert(error.response.data)
-                    }
+                    alert(error.response.data)
                 });
         },
         toggleModal(){
             this.showModal = !this.showModal
         },
         deleteAsset(){
-            console.log("BOUM")
+            alert("BOUM")
         }
     }
 }

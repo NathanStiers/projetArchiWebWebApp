@@ -34,7 +34,7 @@ export default {
   },
   beforeMount() {
     if(toolbox.checkIfConnected()){
-      this.$router.push({ name: 'Wallet' })
+      this.$router.replace({ name: 'Wallet' })
     }
   }
 }

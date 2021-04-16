@@ -53,8 +53,7 @@ export default {
         let d = new Date();
         d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
         let expires = "expires=" + d.toUTCString();
-        let data_user = response.data;
-        document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
+        document.cookie = "Token=" + response.data + ";" + expires + ";path=/"
         this.$router.push({ name: 'Wallet' })
         }else{
           alert(response.data)
@@ -87,7 +86,7 @@ export default {
   },
   beforeMount() {
     if(toolbox.checkIfConnected()){
-      this.$router.push({ name: 'Wallet' })
+      this.$router.replace({ name: 'Wallet' })
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="walletCard" v-on:click="$router.push({ name: 'Asset', params:{id:wallet.id} })">
+    <div class="walletCard" v-on:click="fetchAssets($event)">
         <div class="deleteCard" v-on:click="deleteWallet()">X</div>
         <p>Portefeuille {{index+1}}</p>
         <p>{{wallet.label}}</p>
@@ -22,24 +22,25 @@ export default {
     },
     methods:{
         deleteWallet(){
-            axios
-                .post(this.uri+"/wallets/delete", {
-                    id : this.wallet.id
-                }, {
-                    headers : {token : toolbox.readCookie("Token")}
-                })
-                .then((response) => {
+            if(confirm("Are you sure you want to delete the "+this.wallet.label+" wallet and all its contents?"))
+            axios.post(this.uri+"/wallets/delete", {
+                wallet_id : this.wallet.id
+            }, {
+                headers : {token : toolbox.readCookie("Token")}
+            }).then((response) => {
                 if (response.status === 200) {
                     this.$router.replace({ name: 'Home' })
                 }else{
-                    alert("Erreur inconnue")
+                    alert(response.data)
                 }
-                })
-                .catch((error) => {
-                if(error.response.status === 401 || error.response.status === 403){
-                    alert(error.response.data)
-                }
+            }).catch((error) => {
+                alert(error.response.data)
             });
+        },
+        fetchAssets(event){
+            if (event.target.className !== "deleteCard"){
+                this.$router.push({ name: 'Asset', params:{id:this.wallet.id} })
+            }
         }
     }
     

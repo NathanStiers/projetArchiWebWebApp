@@ -2,12 +2,9 @@
   <Menu/>
   <h1>Asset page</h1>
   <div class="asset">
-    <div v-for="asset in assetList" v-bind:key="asset.ticker">
-      <AssetCard class="assetItem" v-bind:asset="asset" v-bind:apiData="apiData[asset.ticker]"/>  
-    </div>
-    <AddAssetCard class="assetItem"/>
+    <AssetCard class="assetItem" v-for="asset in assetList" v-bind:key="asset.ticker" v-bind:type="type" v-bind:asset="asset" v-bind:apiData="apiData[asset.ticker]"/>  
+    <AddAssetCard class="assetItem" v-bind:assetList="assetsFromTypeList"/>
   </div>
-  <p>bouton d'alerte de prix</p>
 </template>
 
 <script>
@@ -24,7 +21,9 @@ export default {
     return{
       uri: "http://localhost:3000",
       assetList: [],
-      apiData: []
+      apiData: [],
+      assetsFromTypeList : [],
+      type: ''
     }
   },
   components:{
@@ -34,34 +33,29 @@ export default {
   },
   beforeMount() {
     if(!toolbox.checkIfConnected()){
-      this.$router.push({ name: 'Home' })
+      this.$router.replace({ name: 'Home' })
       return;
     }
-    let wallet_id = this.$router.currentRoute._rawValue.params.id
-        axios
-        .post(this.uri+"/assets/"+wallet_id+"/fetch", {}, {
-          headers : {token : toolbox.readCookie("Token")}
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            if('apiDataCrypto' in response.data){
-              this.apiData = toolbox.transformDictFromCryptoAPI(response.data.apiDataCrypto)
-              this.assetList = response.data.resultSQL
-            } else {
-              response.data.forEach(el => {
-                this.apiData[el.ticker] = {type : "null"}
-              })
-              this.assetList = response.data
-            }
-          }else{
-            alert("Erreur inconnue")
-          }
-        })
-        .catch((error) => {
-          if(error.response.status === 401 || error.response.status === 403){
-            alert(error.response.data)
-          }
-        });
+    axios.get(this.uri+"/wallets/" + this.$router.currentRoute._rawValue.params.id, {
+      headers : {token : toolbox.readCookie("Token")}
+    }).then((response) => {
+      if (response.status === 200) {
+          console.log(response.data.apiInfos)
+          console.log(response.data.resultSQL)
+          console.log(response.data.assetsFromType)
+          this.apiData = response.data.apiInfos
+          /*response.data.apiInfos.forEach(el => {
+            this.apiData[el.ticker] = {type : "null"}
+          })*/
+          this.assetsFromTypeList = response.data.assetsFromType
+          this.assetList = response.data.resultSQL
+          this.type = response.data.type
+      } else {
+        alert(response.data)
+      }
+    }).catch((error) => {
+      alert(error.response.data)
+    });
   }
 }
 

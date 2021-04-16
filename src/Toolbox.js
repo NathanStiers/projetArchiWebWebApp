@@ -21,19 +21,3 @@ exports.checkIfConnected = () => {
   }
   return false;
 }
-
-exports.transformDictFromCryptoAPI = (dictToTransform) => {
-  let newDict = {}
-  dictToTransform.forEach(el => {
-    newDict[el.symbol] = {
-      name : el.name,
-      ticker : el.symbol,
-      max_supply : el.max_supply,
-      total_supply : el.total_supply,
-      market_cap : el.quote.EUR.market_cap,
-      price : el.quote.EUR.price,
-      type : "Crypto-actifs"
-    }
-  })
-  return newDict;
-}

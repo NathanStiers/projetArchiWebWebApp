@@ -1,10 +1,8 @@
 <template>
   <Menu/>
   <div class="wallet">
-    <div v-for="(wallet, index) in walletList" v-bind:key="wallet.id">
-      <WalletCard class="walletItem" v-bind:wallet="wallet" v-bind:index="index" />  
-    </div>
-    <AddWalletCard class="walletItem" v-if="!walletLeft<1"/>
+    <WalletCard v-for="(wallet, index) in walletList" v-bind:key="wallet.id" class="walletItem" v-bind:wallet="wallet" v-bind:index="index" />  
+    <AddWalletCard class="walletItem" v-if="!maxReached" v-bind:types="types"/>
   </div>
 </template>
 
@@ -22,7 +20,8 @@ export default {
   data() {
     return{
       walletList: [],
-      walletLeft: 0,
+      maxReached: true,
+      types: [],
       uri: "http://localhost:3000"
     }
   },
@@ -33,29 +32,24 @@ export default {
   },
   beforeMount() {
     if(!toolbox.checkIfConnected()){
-      this.$router.push({ name: 'Home' })
+      this.$router.replace({ name: 'Home' })
     }else{
-      axios
-        .post(this.uri+"/wallets/fetch", {}, {
-          headers : {token : toolbox.readCookie("Token")}
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            this.walletList = response.data.wallet_list
-            console.log(response.data.role)
-            let max = response.data.role === "premium" ? 10 : 3
-            this.walletLeft = max - this.walletList.length
-          }else{
-            alert("Erreur inconnue")
-          }
-        })
-        .catch((error) => {
-          if(error.response.status === 401 || error.response.status === 403){
-            alert(error.response.data)
-          }
-        });
+      axios.get(this.uri+"/wallets/fetch", {
+        headers : {token : toolbox.readCookie("Token")}
+      }).then((response) => {
+        if (response.status === 200) {
+          this.walletList = response.data.user.wallet_list
+          this.maxReached = response.data.max_reached
+          console.log(this.maxReached)
+          this.types = response.data.types
+        }else{
+          alert(response.data)
+        }
+      }).catch((error) => {
+        alert(error.response.data)
+      });
     }
-    }
+  }
 }
 
 </script>

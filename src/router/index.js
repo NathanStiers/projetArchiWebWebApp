@@ -24,7 +24,7 @@ const routes = [
     component: Subscribe
   },
   {
-    path: '/wallet',
+    path: '/wallets',
     name: 'Wallet',
     component: Wallet
   },
