@@ -46,34 +46,37 @@ export default {
       this.confirmPassword = newValue;
     },
     createUser() {
-      if(this.password !== this.confirmPassword){
-        alert("Les deux mots de passe ne correspondent pas")
+      if(this.mail === ''){
+        alert('Please fill in all fields of the form')
         return;
       }
-      axios
-        .post(this.uri+"/user/create", {
-          name : this.name,
-          surname : this.surname,
-          mail : this.mail,
-          password : this.password
-        })
-        .then((response) => {
-          if (response.status === 201) {
-            let d = new Date();
-            d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
-            let expires = "expires=" + d.toUTCString();
-            let data_user = response.data;
-            document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
-            this.$router.push({ name: 'Wallet' })
-          }else{
-            alert("Erreur dans l'envoi du formulaire")
-          }
-        })
-        .catch((error) => {
-          if(error.response.status === 401 || error.response.status === 403){
-            alert(error.response.data)
-          }
-        });
+      if(!/\S+@\S+\.\S+/.test(this.mail)){
+        alert('The mail does not correspond to the right format')
+        return;
+      }
+      if(this.password !== this.confirmPassword){
+        alert("Passwords do not match")
+        return;
+      }
+      axios.post(this.uri+"/user/create", {
+        name : this.name,
+        surname : this.surname,
+        mail : this.mail,
+        password : this.password
+      }).then((response) => {
+        if (response.status === 201) {
+          let d = new Date();
+          d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
+          let expires = "expires=" + d.toUTCString();
+          let data_user = response.data;
+          document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
+          this.$router.push({ name: 'Wallet' })
+        }else{
+          alert(response.data)
+        }
+      }).catch((error) => {
+          alert(error.response.data)
+      });
     }
   },
   beforeMount() {

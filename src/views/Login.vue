@@ -45,26 +45,23 @@ export default {
         alert('The mail does not correspond to the right format')
         return;
       }
-      axios
-        .post(this.uri+"/user/connect", {
-          mail : this.mail,
-          password : this.password
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            let d = new Date();
-            d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
-            let expires = "expires=" + d.toUTCString();
-            let data_user = response.data;
-            document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
-            this.$router.push({ name: 'Wallet' })
-          }else{
-            alert(response.data)
-          }
-        })
-        .catch((error) => {
-          alert(error.response.data)
-        });
+      axios.post(this.uri+"/user/connect", {
+        mail : this.mail,
+        password : this.password
+      }).then((response) => {
+        if (response.status === 200) {
+        let d = new Date();
+        d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
+        let expires = "expires=" + d.toUTCString();
+        let data_user = response.data;
+        document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
+        this.$router.push({ name: 'Wallet' })
+        }else{
+          alert(response.data)
+        }
+      }).catch((error) => {
+        alert(error.response.data)
+      });
     },
     forgotPassword(){
       if(this.mail === ''){
@@ -75,20 +72,17 @@ export default {
         alert('The mail does not correspond to the right format')
         return;
       }
-      axios
-        .post(this.uri+"/user/forgotPwd", {
-          mail : this.mail
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            alert("Email envoyé à : " + this.mail)
-          }else{
-            alert(response.data)
-          }
-        })
-        .catch((error) => {
-          alert(error.response.data)
-        });
+      axios.post(this.uri+"/user/forgotPwd", {
+        mail : this.mail
+      }).then((response) => {
+        if (response.status === 200) {
+          alert("Email envoyé à : " + this.mail)
+        }else{
+          alert(response.data)
+        }
+      }).catch((error) => {
+        alert(error.response.data)
+      });
     }
   },
   beforeMount() {
