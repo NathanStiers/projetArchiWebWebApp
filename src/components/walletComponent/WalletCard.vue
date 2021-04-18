@@ -1,7 +1,7 @@
 <template>
     <div class="walletCard" v-on:click="fetchAssets($event)">
         <div class="deleteCard" v-on:click="deleteWallet()">X</div>
-        <p>Portefeuille {{index+1}}</p>
+        <p>Wallet {{index+1}}</p>
         <p>{{wallet.label}}</p>
         <p>Type : {{wallet.type}}</p>
     </div>

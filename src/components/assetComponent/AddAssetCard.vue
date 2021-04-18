@@ -1,9 +1,13 @@
 <template>
+
+  <!-- Asset creation invitation window -->
   <div class="addWallet" v-on:click="toggleModal()">
     <p>+</p>
     <p>Add a new</p>
     <p>asset</p>
   </div>
+
+  <!-- Asset creation by modal window -->
   <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
     <span class="modal__title">Add a new asset</span>
     <div class="modal__content">
@@ -11,9 +15,9 @@
         <option v-for="asset in assetList" v-bind:key="asset.id" >{{asset.label}}</option>
       </select>
       <br/><br/>
-      Quantité : <input v-model="quantity" type="number" name="quantity" id="" step="0.000000001">
+      Quantity : <input v-model="quantity" type="number" name="quantity" id="" step="0.000000001"> €
       <br/><br/>
-      Montant investit : <input v-model="invested_amount" type="number" name="invested_amount" id="" step="0.001">
+      Amount invested : <input v-model="invested_amount" type="number" name="invested_amount" id="" step="0.001"> units
     </div>
     <div class="modal__action">
       <button class="vfm-btn" v-on:click="addAsset()">Confirm</button>

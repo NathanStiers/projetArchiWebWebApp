@@ -2,9 +2,11 @@
   <Menu/>
   <div class="login">
     <h1>Login page</h1>
+
+      <!-- Login form -->
       <FormLogin id="formLogin" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged"/>
-      <button v-on:click="forgotPassword()">J'ai oublié mon mdp</button>
-      <button v-on:click="connectUser()">Envoyer les infos</button>
+      <button v-on:click="forgotPassword()">I forgot my password</button>
+      <button v-on:click="connectUser()">Send my credentials</button>
   </div>
 </template>
 
@@ -38,11 +40,11 @@ export default {
     },
     connectUser() {
       if(this.mail === '' || this.password === ''){
-        alert('Please fill in all fields of the form')
+        this.onError('Please fill in all fields of the form')
         return;
       }
       if(!/\S+@\S+\.\S+/.test(this.mail)){
-        alert('The mail does not correspond to the right format')
+        this.onError('The mail does not correspond to the right format')
         return;
       }
       axios.post(this.uri+"/user/connect", {
@@ -54,7 +56,7 @@ export default {
           d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
           let expires = "expires=" + d.toUTCString();
           document.cookie = "Token=" + response.data + ";" + expires + ";path=/"
-          this.$router.push({ name: 'Wallet' })
+          this.$router.replace({ name: 'Wallet' })
         }
       }).catch((error) => {
         this.onError(error.response.data)

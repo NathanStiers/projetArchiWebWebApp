@@ -1,8 +1,14 @@
 <template>
   <Menu/>
-  <input type="text" id="searchWallet" v-model="searchLabel" v-on:keyup="search" placeholder="Search your wallet">
+
+  <!-- Search form -->
+  <input type="text" id="searchWallet" v-model="searchLabel" v-on:keyup="search" placeholder="Search a wallet">
   <div class="wallet">
+
+    <!-- Shows all the user's wallets -->
     <WalletCard v-for="(wallet, index) in walletList" v-bind:key="wallet.id" class="walletItem" v-bind:wallet="wallet" v-bind:index="index" @sucess="onSuccess" @error="onError"/>  
+    
+    <!-- Add wallet form -->
     <AddWalletCard class="walletItem" v-if="!maxReached" v-bind:types="types" @sucess="onSuccess" @error="onError"/>
   </div>
 </template>

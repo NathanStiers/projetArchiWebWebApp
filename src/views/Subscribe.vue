@@ -2,8 +2,10 @@
   <Menu/>
   <div class="subscribe">
     <h1>Subscribe page</h1>
+
+      <!-- Create a new account form -->
       <FormSubscribe @valueNameChanged="onValueNameChanged" @valueSurnameChanged="onValueSurnameChanged" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged" @valuePasswordConfirmChanged="onValuePasswordConfirmChanged"/>
-      <button v-on:click="createUser()">Envoyer les infos</button>
+      <button v-on:click="createUser()">Create my account</button>
   </div>
 </template>
 
@@ -71,7 +73,7 @@ export default {
           let expires = "expires=" + d.toUTCString();
           let data_user = response.data;
           document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
-          this.$router.push({ name: 'Wallet' })
+          this.$router.replace({ name: 'Wallet' })
           this.onSuccess("Account created")
         }
       }).catch((error) => {

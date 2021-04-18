@@ -1,9 +1,15 @@
 <template>
   <Menu/>
   <h1>Asset page</h1>
-  <input type="text" id="searchAsset" v-model="searchLabel" v-on:keyup="search" placeholder="Search your asset">
+
+  <!-- Search an asset based on label form -->
+  <input type="text" id="searchAsset" v-model="searchLabel" v-on:keyup="search" placeholder="Search an asset">
   <div class="asset">
+
+    <!-- List of all the assets in the user's selected wallet -->
     <AssetCard class="assetItem" v-for="asset in assetList" v-bind:key="asset.ticker" v-bind:type="type" v-bind:asset="asset" v-bind:apiData="apiData[asset.ticker]" @sucess="onSuccess" @error="onError"/>  
+    
+    <!-- Add an asset form -->
     <AddAssetCard class="assetItem" v-bind:assetList="assetsFromTypeList" @sucess="onSuccess" @error="onError"/>
   </div>
 </template>

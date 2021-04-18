@@ -1,11 +1,15 @@
 <template>
+
+    <!-- Wallet creation invitation window -->
     <div class="addWallet" v-on:click="toggleModal()">
         <p>+</p>
-        <p>Ajouter un nouveau</p>
-        <p>portefeuille</p>
+        <p>Add a new</p>
+        <p>wallet</p>
     </div>
+    
+    <!-- Wallet creation by modal window -->
     <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
-      <span class="modal__title">Create a new wallet</span>
+      <span class="modal__title">Add a new wallet</span>
       <div class="modal__content">
         Label : <input v-model="label" type="text" name="" id="" maxlength="50">
         <br/><br/>
@@ -14,8 +18,8 @@
         </select>
       </div>
       <div class="modal__action">
-        <button class="vfm-btn" v-on:click="createWallet()">confirm</button>
-        <button class="vfm-btn" v-on:click="toggleModal()">cancel</button>
+        <button class="vfm-btn" v-on:click="createWallet()">Confirm</button>
+        <button class="vfm-btn" v-on:click="toggleModal()">Cancel</button>
       </div>
     </vue-final-modal>
 </template>
