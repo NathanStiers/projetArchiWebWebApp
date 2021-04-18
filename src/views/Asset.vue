@@ -2,8 +2,8 @@
   <Menu/>
   <h1>Asset page</h1>
   <div class="asset">
-    <AssetCard class="assetItem" v-for="asset in assetList" v-bind:key="asset.ticker" v-bind:type="type" v-bind:asset="asset" v-bind:apiData="apiData[asset.ticker]"/>  
-    <AddAssetCard class="assetItem" v-bind:assetList="assetsFromTypeList"/>
+    <AssetCard class="assetItem" v-for="asset in assetList" v-bind:key="asset.ticker" v-bind:type="type" v-bind:asset="asset" v-bind:apiData="apiData[asset.ticker]" @deleted="fetchAssets"/>  
+    <AddAssetCard class="assetItem" v-bind:assetList="assetsFromTypeList" @added="fetchAssets"/>
   </div>
 </template>
 
@@ -31,31 +31,30 @@ export default {
     AssetCard,
     AddAssetCard
   },
+  methods:{
+    fetchAssets(){
+      axios.get(this.uri+"/wallets/" + this.$router.currentRoute._rawValue.params.id, {
+        headers : {token : toolbox.readCookie("Token")}
+      }).then((response) => {
+        if (response.status === 200) {
+          this.apiData = response.data.apiInfos
+          this.assetsFromTypeList = response.data.assetsFromType
+          this.assetList = response.data.resultSQL
+          this.type = response.data.type
+        } else {
+          alert(response.data)
+        }
+      }).catch((error) => {
+        alert(error.response.data)
+      });
+    }
+  },
   beforeMount() {
     if(!toolbox.checkIfConnected()){
       this.$router.replace({ name: 'Home' })
       return;
     }
-    axios.get(this.uri+"/wallets/" + this.$router.currentRoute._rawValue.params.id, {
-      headers : {token : toolbox.readCookie("Token")}
-    }).then((response) => {
-      if (response.status === 200) {
-          console.log(response.data.apiInfos)
-          console.log(response.data.resultSQL)
-          console.log(response.data.assetsFromType)
-          this.apiData = response.data.apiInfos
-          /*response.data.apiInfos.forEach(el => {
-            this.apiData[el.ticker] = {type : "null"}
-          })*/
-          this.assetsFromTypeList = response.data.assetsFromType
-          this.assetList = response.data.resultSQL
-          this.type = response.data.type
-      } else {
-        alert(response.data)
-      }
-    }).catch((error) => {
-      alert(error.response.data)
-    });
+    this.fetchAssets()
   }
 }
 

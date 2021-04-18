@@ -1,28 +1,25 @@
 <template>
-    <div class="addWallet" v-on:click="toggleModal()">
-        <p>+</p>
-        <p>Ajouter un nouvel</p>
-        <p>actif</p>
+  <div class="addWallet" v-on:click="toggleModal()">
+    <p>+</p>
+    <p>Add a new</p>
+    <p>asset</p>
+  </div>
+  <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
+    <span class="modal__title">Add a new asset</span>
+    <div class="modal__content">
+      <select v-model="assetName" name="" id="">
+        <option v-for="asset in assetList" v-bind:key="asset.id" >{{asset.label}}</option>
+      </select>
+      <br/><br/>
+      Quantité : <input v-model="quantity" type="number" name="quantity" id="" step="0.000000001">
+      <br/><br/>
+      Montant investit : <input v-model="invested_amount" type="number" name="invested_amount" id="" step="0.001">
     </div>
-    <vue-final-modal
-      v-model="showModal"
-      classes="modal-container"
-      content-class="modal-content">
-      <span class="modal__title">Add a new asset</span>
-      <div class="modal__content">
-        Type : <select v-model="assetName" name="" id="">
-            <option v-for="asset in assetList" v-bind:key="asset.id" >{{asset.label}}</option>
-        </select>
-        <br/><br/>
-        Quantité : <input v-model="quantity" type="number" name="quantity" id="" step="0.000000001">
-        <br/><br/>
-        Montant investit : <input v-model="invested_amount" type="number" name="invested_amount" id="" step="0.001">
-      </div>
-      <div class="modal__action">
-        <button class="vfm-btn" v-on:click="addAsset()">confirm</button>
-        <button class="vfm-btn" v-on:click="toggleModal()">cancel</button>
-      </div>
-    </vue-final-modal>
+    <div class="modal__action">
+      <button class="vfm-btn" v-on:click="addAsset()">Confirm</button>
+      <button class="vfm-btn" v-on:click="toggleModal()">Cancel</button>
+    </div>
+  </vue-final-modal>
 </template>
 
 <script>
@@ -31,51 +28,55 @@ import axios from "axios";
 const toolbox = require("../../Toolbox.js");
 
 export default {
-    name: 'AddWalletCard',
-    props: ['assetList'],
-    data(){
-        return{
-            uri: "http://localhost:3000",
-            showModal: false,
-            quantity: 0,
-            invested_amount: 0,
-            assetName: ""
-        }
-    },
-    methods:{
-        addAsset(){
-            let assetId = -1;
-            this.assetList.forEach(el => {
-                if(el.label === this.assetName){
-                    assetId = el.id;
-                }
-            })
-            axios
-                .post(this.uri+"/assets/add", {
-                    quantity: this.quantity,
-                    invested_amount: this.invested_amount,
-                    asset_id: assetId,
-                    wallet_id: this.$router.currentRoute._rawValue.params.id
-                }, {
-                    headers : {token : toolbox.readCookie("Token")}
-                })
-                .then((response) => {
-                if (response.status === 201) {
-                    this.$router.replace({ name: 'Home' })
-                }else{
-                    alert("Erreur inconnue")
-                }
-                })
-                .catch((error) => {
-                if(error.response.status === 401 || error.response.status === 403){
-                    alert(error.response.data)
-                }
-            });
-        },
-        toggleModal(){
-            this.showModal = !this.showModal
-        }
+  name: 'AddWalletCard',
+  props: ['assetList'],
+  data(){
+    return{
+      uri: "http://localhost:3000",
+      showModal: false,
+      quantity: 0,
+      invested_amount: 0,
+      assetName: ""
     }
+  },
+  methods:{
+    addAsset(){
+      if (this.quantity === '' || this.invested_amount === '' || isNaN(this.invested_amount)) {
+        alert('Please fill in all fields of the form')
+        return;
+      }
+      if (isNaN(this.quantity) || isNaN(this.invested_amount) || this.quantity < 0 || this.invested_amount < 0) {
+        alert('The amount and/or the quantity is invalid')
+        return;
+      }
+      let assetId = -1;
+      this.assetList.forEach(el => {
+        if(el.label === this.assetName){
+          assetId = el.id;
+        }
+      })
+      axios.post(this.uri+"/assets/add", {
+        quantity: this.quantity,
+        invested_amount: this.invested_amount,
+        asset_id: assetId,
+        wallet_id: this.$router.currentRoute._rawValue.params.id
+      }, {
+        headers : {token : toolbox.readCookie("Token")}
+      }).then((response) => {
+        if (response.status === 201) {
+          this.$emit('added')
+          this.toggleModal()
+        }else{
+          alert(response.data)
+        }
+      }).catch((error) => {
+        alert(error.response.data)
+      });
+    },
+    toggleModal(){
+      this.showModal = !this.showModal
+    }
+  }
 }
 </script>
 

@@ -49,7 +49,8 @@ export default {
             headers : {token : toolbox.readCookie("Token")}
           }).then((response) => {
             if (response.status === 201) {
-              this.$router.replace({ name: 'Home' })
+              this.$emit('added')
+              this.toggleModal()
             }else{
               alert(response.data)
             }

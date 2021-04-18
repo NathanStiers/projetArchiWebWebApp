@@ -1,8 +1,8 @@
 <template>
   <Menu/>
   <div class="wallet">
-    <WalletCard v-for="(wallet, index) in walletList" v-bind:key="wallet.id" class="walletItem" v-bind:wallet="wallet" v-bind:index="index" />  
-    <AddWalletCard class="walletItem" v-if="!maxReached" v-bind:types="types"/>
+    <WalletCard v-for="(wallet, index) in walletList" v-bind:key="wallet.id" class="walletItem" v-bind:wallet="wallet" v-bind:index="index" @deleted="fetchWallets"/>  
+    <AddWalletCard class="walletItem" v-if="!maxReached" v-bind:types="types" @added="fetchWallets"/>
   </div>
 </template>
 
@@ -30,10 +30,8 @@ export default {
     WalletCard,
     AddWalletCard
   },
-  beforeMount() {
-    if(!toolbox.checkIfConnected()){
-      this.$router.replace({ name: 'Home' })
-    }else{
+  methods:{
+    fetchWallets(){
       axios.get(this.uri+"/wallets/fetch", {
         headers : {token : toolbox.readCookie("Token")}
       }).then((response) => {
@@ -48,6 +46,13 @@ export default {
       }).catch((error) => {
         alert(error.response.data)
       });
+    }
+  },
+  beforeMount() {
+    if(!toolbox.checkIfConnected()){
+      this.$router.replace({ name: 'Home' })
+    }else{
+      this.fetchWallets()
     }
   }
 }

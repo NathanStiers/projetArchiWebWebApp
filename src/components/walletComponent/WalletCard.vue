@@ -22,14 +22,16 @@ export default {
     },
     methods:{
         deleteWallet(){
-            if(confirm("Are you sure you want to delete the "+this.wallet.label+" wallet and all its contents?"))
+            if(!confirm("Are you sure you want to delete the "+this.wallet.label+" wallet and all its contents?")){
+                return;
+            }
             axios.post(this.uri+"/wallets/delete", {
                 wallet_id : this.wallet.id
             }, {
                 headers : {token : toolbox.readCookie("Token")}
             }).then((response) => {
                 if (response.status === 200) {
-                    this.$router.replace({ name: 'Home' })
+                    this.$emit('deleted')
                 }else{
                     alert(response.data)
                 }

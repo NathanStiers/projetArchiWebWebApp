@@ -92,31 +92,45 @@ export default {
             let wallet_id = this.$router.currentRoute._rawValue.params.id
             let newValue = event.target.parentNode.children[0].value
             let id = this.$props.asset.id
-           axios
-                .post(this.uri+"/assets/changeInvestment", {
-                    wallet_id : wallet_id,
-                    invested_amount : newValue,
-                    aw_id : id
-                }, {
-                    headers: {token : toolbox.readCookie("Token")}
-                })
-                .then((response) => {
-                    if (response.status === 200) {
-                        this.$props.asset.invested_amount = newValue
-                        alert("Le montant est mis à jour")
-                    }else{
-                        alert("Erreur dans l'envoi du formulaire")
-                    }
-                })
-                .catch((error) => {
-                    alert(error.response.data)
-                });
+            axios.post(this.uri+"/assets/changeInvestment", {
+                wallet_id : wallet_id,
+                invested_amount : newValue,
+                aw_id : id
+            }, {
+                headers: {token : toolbox.readCookie("Token")}
+            }).then((response) => {
+                if (response.status === 200) {
+                    this.$props.asset.invested_amount = newValue
+                    alert("Le montant est mis à jour")
+                }else{
+                    alert("Erreur dans l'envoi du formulaire")
+                }
+            }).catch((error) => {
+                alert(error.response.data)
+            });
         },
         toggleModal(){
             this.showModal = !this.showModal
         },
         deleteAsset(){
-            alert("BOUM")
+            if(!confirm("Are you sure you want to delete the "+this.$props.asset.label+" asset ?")){
+                return;
+            }
+            axios.post(this.uri+"/assets/remove", {
+                wallet_id : this.$props.asset.id_wallet,
+                id : this.$props.asset.id
+            }, {
+                headers: {token : toolbox.readCookie("Token")}
+            }).then((response) => {
+                if (response.status === 200) {
+                    this.$emit("deleted")
+                    this.toggleModal()
+                }else{
+                    alert("Erreur dans l'envoi du formulaire")
+                }
+            }).catch((error) => {
+                alert(error.response.data)
+            });
         }
     }
 }
