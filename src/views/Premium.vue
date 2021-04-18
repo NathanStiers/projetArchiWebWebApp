@@ -46,13 +46,18 @@ export default {
           d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
           let expires = "expires=" + d.toUTCString();
           document.cookie = "Token=" + response.data + ";" + expires + ";path=/"
-          alert("You're now a premium user")
-        }else{
-          alert(response.data)
+          this.onSuccess("You're now a premium user")
         }
       }).catch((error) => {
-        alert(error.response.data)
+        this.onError(error.response.data)
       });
+    },
+    onSuccess(msg){
+      this.$toast.success(msg)
+      setTimeout(this.$toast.clear, 3000)
+    },
+    onError(msg){
+      this.$toast.error(msg)
     }
   },
   beforeMount() {

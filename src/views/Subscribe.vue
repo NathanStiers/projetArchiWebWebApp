@@ -29,7 +29,8 @@ export default {
   components:{
     Menu,
     FormSubscribe
-  },methods: {
+  },
+  methods: {
     onValueNameChanged(newValue) {
       this.name = newValue;
     },
@@ -47,15 +48,15 @@ export default {
     },
     createUser() {
       if(this.mail === ''){
-        alert('Please fill in all fields of the form')
+        this.onError('Please fill in all fields of the form')
         return;
       }
       if(!/\S+@\S+\.\S+/.test(this.mail)){
-        alert('The mail does not correspond to the right format')
+        this.onError('The mail does not correspond to the right format')
         return;
       }
       if(this.password !== this.confirmPassword){
-        alert("Passwords do not match")
+        this.onError("Passwords do not match")
         return;
       }
       axios.post(this.uri+"/user/create", {
@@ -71,12 +72,18 @@ export default {
           let data_user = response.data;
           document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
           this.$router.push({ name: 'Wallet' })
-        }else{
-          alert(response.data)
+          this.onSuccess("Account created")
         }
       }).catch((error) => {
-          alert(error.response.data)
+          this.onError(error.response.data)
       });
+    },
+    onSuccess(msg){
+      this.$toast.success(msg)
+      setTimeout(this.$toast.clear, 3000)
+    },
+    onError(msg){
+      this.$toast.error(msg)
     }
   },
   beforeMount() {

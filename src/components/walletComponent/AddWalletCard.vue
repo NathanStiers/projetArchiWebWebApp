@@ -39,7 +39,7 @@ export default {
     methods:{
         createWallet(){
           if(this.label === "" || this.type === ""){
-            alert('Please fill in all fields of the form')
+            this.$emit('error', 'Please fill in all fields of the form')
             return;
           }
           axios.post(this.uri+"/wallets/create", {
@@ -49,13 +49,11 @@ export default {
             headers : {token : toolbox.readCookie("Token")}
           }).then((response) => {
             if (response.status === 201) {
-              this.$emit('added')
+              this.$emit('sucess', response.data, true)
               this.toggleModal()
-            }else{
-              alert(response.data)
             }
           }).catch((error) => {
-            alert(error.response.data)
+            this.$emit('error', error.response.data)
           });
         },
         toggleModal(){

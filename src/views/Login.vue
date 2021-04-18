@@ -50,38 +50,41 @@ export default {
         password : this.password
       }).then((response) => {
         if (response.status === 200) {
-        let d = new Date();
-        d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
-        let expires = "expires=" + d.toUTCString();
-        document.cookie = "Token=" + response.data + ";" + expires + ";path=/"
-        this.$router.push({ name: 'Wallet' })
-        }else{
-          alert(response.data)
+          let d = new Date();
+          d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
+          let expires = "expires=" + d.toUTCString();
+          document.cookie = "Token=" + response.data + ";" + expires + ";path=/"
+          this.$router.push({ name: 'Wallet' })
         }
       }).catch((error) => {
-        alert(error.response.data)
+        this.onError(error.response.data)
       });
     },
     forgotPassword(){
       if(this.mail === ''){
-        alert('Please fill in your email')
+        this.onError('Please fill in your email')
         return;
       }
       if(!/\S+@\S+\.\S+/.test(this.mail)){
-        alert('The mail does not correspond to the right format')
+        this.onError('The mail does not correspond to the right format')
         return;
       }
       axios.post(this.uri+"/user/forgotPwd", {
         mail : this.mail
       }).then((response) => {
         if (response.status === 200) {
-          alert("Email envoyé à : " + this.mail)
-        }else{
-          alert(response.data)
+          this.onSuccess("Email envoyé à : " + this.mail)
         }
       }).catch((error) => {
-        alert(error.response.data)
+        this.onError(error.response.data)
       });
+    },
+    onSuccess(msg){
+      this.$toast.success(msg)
+      setTimeout(this.$toast.clear, 3000)
+    },
+    onError(msg){
+      this.$toast.error(msg)
     }
   },
   beforeMount() {

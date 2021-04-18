@@ -31,12 +31,10 @@ export default {
                 headers : {token : toolbox.readCookie("Token")}
             }).then((response) => {
                 if (response.status === 200) {
-                    this.$emit('deleted')
-                }else{
-                    alert(response.data)
+                    this.$emit('sucess', response.data, true)
                 }
             }).catch((error) => {
-                alert(error.response.data)
+                this.$emit('error', error.response.data)
             });
         },
         fetchAssets(event){

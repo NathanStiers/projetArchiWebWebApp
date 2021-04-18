@@ -1,9 +1,10 @@
 <template>
   <Menu/>
   <h1>Asset page</h1>
+  <input type="text" id="searchAsset" v-model="searchLabel" v-on:keyup="search" placeholder="Search your asset">
   <div class="asset">
-    <AssetCard class="assetItem" v-for="asset in assetList" v-bind:key="asset.ticker" v-bind:type="type" v-bind:asset="asset" v-bind:apiData="apiData[asset.ticker]" @deleted="fetchAssets"/>  
-    <AddAssetCard class="assetItem" v-bind:assetList="assetsFromTypeList" @added="fetchAssets"/>
+    <AssetCard class="assetItem" v-for="asset in assetList" v-bind:key="asset.ticker" v-bind:type="type" v-bind:asset="asset" v-bind:apiData="apiData[asset.ticker]" @sucess="onSuccess" @error="onError"/>  
+    <AddAssetCard class="assetItem" v-bind:assetList="assetsFromTypeList" @sucess="onSuccess" @error="onError"/>
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import Menu from '@/components/menu/Header.vue'
 import AssetCard from '@/components/assetComponent/AssetCard.vue'
 import AddAssetCard from '@/components/assetComponent/AddAssetCard.vue'
 import axios from "axios";
+var _ = require('lodash');
 
 export default {
   name: 'Asset',
@@ -23,7 +25,9 @@ export default {
       assetList: [],
       apiData: [],
       assetsFromTypeList : [],
-      type: ''
+      type: '',
+      searchLabel: "",
+      completeList: [],
     }
   },
   components:{
@@ -40,13 +44,37 @@ export default {
           this.apiData = response.data.apiInfos
           this.assetsFromTypeList = response.data.assetsFromType
           this.assetList = response.data.resultSQL
+          this.completeList = _.cloneDeep(this.assetList)
           this.type = response.data.type
-        } else {
-          alert(response.data)
-        }
+        } else if(response.status === 204) {
+          this.onError(response.data)
+        } 
       }).catch((error) => {
-        alert(error.response.data)
+        this.onError(error.response.data)
       });
+    },
+    search(){
+      let pattern = this.searchLabel.toUpperCase()
+      this.assetList = _.cloneDeep(this.completeList)
+      if(pattern === ""){
+        return;
+      }
+      let i = this.assetList.length
+      while(i--){
+        if (this.assetList[i].label.toUpperCase().indexOf(pattern) == -1) {
+          this.assetList.splice(i, 1); 
+        }
+      }
+    },
+    onSuccess(msg, needRefetch){
+      this.$toast.success(msg)
+      setTimeout(this.$toast.clear, 3000)
+      if(needRefetch){
+        this.fetchAssets()
+      }
+    },
+    onError(msg){
+      this.$toast.error(msg)
     }
   },
   beforeMount() {

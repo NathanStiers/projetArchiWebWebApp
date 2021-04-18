@@ -39,6 +39,15 @@ export default {
   components:{
     Menu
   },
+  methods:{
+    onSuccess(msg){
+      this.$toast.success(msg)
+      setTimeout(this.$toast.clear, 3000)
+    },
+    onError(msg){
+      this.$toast.error(msg)
+    }
+  },
   beforeMount() {
     if(!toolbox.checkIfConnected()){
       this.$router.replace({ name: 'Home' })
@@ -52,11 +61,10 @@ export default {
           this.totalProfit = response.data.totalProfit
           this.pruComparison = response.data.pruComparison
           this.valueComparison = response.data.valueComparison
-        }else{
-          alert(response.data)
+          this.onSuccess("Only crypto-assets are taken into account in the statistics")
         }
       }).catch((error) => {
-        alert(error.response.data)
+        this.onError(error.response.data)
       });
     }
   }

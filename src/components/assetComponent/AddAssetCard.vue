@@ -42,11 +42,11 @@ export default {
   methods:{
     addAsset(){
       if (this.quantity === '' || this.invested_amount === '' || isNaN(this.invested_amount)) {
-        alert('Please fill in all fields of the form')
+        this.$emit("error", 'Please fill in all fields of the form')
         return;
       }
       if (isNaN(this.quantity) || isNaN(this.invested_amount) || this.quantity < 0 || this.invested_amount < 0) {
-        alert('The amount and/or the quantity is invalid')
+        this.$emit("error", 'The amount and/or the quantity is invalid')
         return;
       }
       let assetId = -1;
@@ -64,13 +64,11 @@ export default {
         headers : {token : toolbox.readCookie("Token")}
       }).then((response) => {
         if (response.status === 201) {
-          this.$emit('added')
+          this.$emit('sucess', response.data, true)
           this.toggleModal()
-        }else{
-          alert(response.data)
         }
       }).catch((error) => {
-        alert(error.response.data)
+        this.$emit("error", error.response.data)
       });
     },
     toggleModal(){

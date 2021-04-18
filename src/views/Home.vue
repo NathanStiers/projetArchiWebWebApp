@@ -2,21 +2,21 @@
   <Menu/>
   <div class="home" id="homeContainer">
     <div id="welcome">
-    <p>Bienvenue sur votre nouveau portefeuille d'investissements en ligne !</p>
-    <p>Notre application vous permettra de surveiller vos différents actifs quels que soit leurs types.</p>
-    <p>Par exemple :</p>
-    <ul>
-      <li>Les Actions</li>
-      <li>Les Crypto-actifs</li>
-      <li>Les Obligations</li>
-      <li>Et bien d'autres</li>
-    </ul>
-    <p>Une page de statistiques vous donnera accès à plus de détails sur vos bénéfices et votre diversification.</p>
-    <p>N'attendez plus, l'inscription est gratuite. Plus de fonctionnalités vous seront proposées avec un compte Premium (gratuit pout le moment, profitez-en).</p>
+    <p>Welcome to your new online investment portfolio !</p>
+      <p>Our application will allow you to monitor your different assets regardless of their type.</p>
+      <p>For example :</p>
+      <ul>
+        <li>The Stocks</li>
+        <li>The Crypto-assets</li>
+        <li>The Bonds</li>
+        <li>And many others</li>
+      </ul>
+      <p>A statistics page will give you access to more details about your profits and diversification.</p>
+      <p>Don't wait any longer, registration is free. More features will be offered with a Premium account (free for the moment, enjoy it).</p>
     </div>
     <div id="subAndLog">
-      <router-link class="button" to="/login">Se connecter</router-link>
-      <router-link class="button" to="/subscribe">S'inscrire</router-link>
+      <router-link class="button" to="/login">Login</router-link>
+      <router-link class="button" to="/subscribe">Sign up</router-link>
     </div>
   </div>
 </template>

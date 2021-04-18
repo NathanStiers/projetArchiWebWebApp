@@ -67,31 +67,35 @@ export default {
             let wallet_id = this.$router.currentRoute._rawValue.params.id
             let newValue = event.target.parentNode.children[0].value
             let id = this.$props.asset.id
-           axios
-                .post(this.uri+"/assets/changeQty", {
-                    wallet_id : wallet_id,
-                    quantity : newValue,
-                    aw_id : id
-                }, {
-                    headers: {token : toolbox.readCookie("Token")}
-                })
-                .then((response) => {
-                    if (response.status === 200) {
-                        this.$props.asset.quantity = newValue
-                        alert("Le montant est mis à jour")
-                    }else{
-                        alert("Erreur dans l'envoi du formulaire")
-                    }
-                })
-                .catch((error) => {
-                    alert(error.response.data)
-                });
+            console.log(newValue)
+            console.log(wallet_id)
+            console.log(id)
+            if(newValue <= 0 || isNaN(newValue)){
+                this.$emit("error", "The quantity is invalid")
+            }
+            axios.post(this.uri+"/assets/changeQty", {
+                wallet_id : wallet_id,
+                quantity : newValue,
+                aw_id : id
+            }, {
+                headers: {token : toolbox.readCookie("Token")}
+            }).then((response) => {
+                if (response.status === 200) {
+                    this.$props.asset.quantity = newValue
+                    this.$emit("sucess", response.data, false)
+                }
+            }).catch((error) => {
+                this.$emit("error", error.response.data)
+            });
         },
         sendNewValueInvest(event){
             this.isEditingInvest = !this.isEditingInvest
             let wallet_id = this.$router.currentRoute._rawValue.params.id
             let newValue = event.target.parentNode.children[0].value
             let id = this.$props.asset.id
+            if(newValue <= 0 || isNaN(newValue)){
+                this.$emit("error", "The amount is invalid")
+            }
             axios.post(this.uri+"/assets/changeInvestment", {
                 wallet_id : wallet_id,
                 invested_amount : newValue,
@@ -101,12 +105,10 @@ export default {
             }).then((response) => {
                 if (response.status === 200) {
                     this.$props.asset.invested_amount = newValue
-                    alert("Le montant est mis à jour")
-                }else{
-                    alert("Erreur dans l'envoi du formulaire")
+                    this.$emit("sucess", response.data, false)
                 }
             }).catch((error) => {
-                alert(error.response.data)
+                this.$emit("error", error.response.data)
             });
         },
         toggleModal(){
@@ -123,13 +125,11 @@ export default {
                 headers: {token : toolbox.readCookie("Token")}
             }).then((response) => {
                 if (response.status === 200) {
-                    this.$emit("deleted")
+                    this.$emit("sucess", response.data, true)
                     this.toggleModal()
-                }else{
-                    alert("Erreur dans l'envoi du formulaire")
                 }
             }).catch((error) => {
-                alert(error.response.data)
+                this.$emit("error", error.response.data)
             });
         }
     }

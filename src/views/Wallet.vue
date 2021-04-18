@@ -1,8 +1,9 @@
 <template>
   <Menu/>
+  <input type="text" id="searchWallet" v-model="searchLabel" v-on:keyup="search" placeholder="Search your wallet">
   <div class="wallet">
-    <WalletCard v-for="(wallet, index) in walletList" v-bind:key="wallet.id" class="walletItem" v-bind:wallet="wallet" v-bind:index="index" @deleted="fetchWallets"/>  
-    <AddWalletCard class="walletItem" v-if="!maxReached" v-bind:types="types" @added="fetchWallets"/>
+    <WalletCard v-for="(wallet, index) in walletList" v-bind:key="wallet.id" class="walletItem" v-bind:wallet="wallet" v-bind:index="index" @sucess="onSuccess" @error="onError"/>  
+    <AddWalletCard class="walletItem" v-if="!maxReached" v-bind:types="types" @sucess="onSuccess" @error="onError"/>
   </div>
 </template>
 
@@ -13,7 +14,7 @@ import Menu from '@/components/menu/Header.vue'
 import WalletCard from '@/components/walletComponent/WalletCard.vue'
 import AddWalletCard from '@/components/walletComponent/AddWalletCard.vue'
 import axios from "axios";
-
+var _ = require('lodash');
 
 export default {
   name: 'Wallet',
@@ -22,6 +23,8 @@ export default {
       walletList: [],
       maxReached: true,
       types: [],
+      searchLabel: "",
+      completeList: [],
       uri: "http://localhost:3000"
     }
   },
@@ -37,15 +40,36 @@ export default {
       }).then((response) => {
         if (response.status === 200) {
           this.walletList = response.data.user.wallet_list
+          this.completeList = _.cloneDeep(this.walletList)
           this.maxReached = response.data.max_reached
-          console.log(this.maxReached)
           this.types = response.data.types
-        }else{
-          alert(response.data)
         }
       }).catch((error) => {
-        alert(error.response.data)
+        this.onError(error.response.data)
       });
+    },
+    search(){
+      let pattern = this.searchLabel.toUpperCase()
+      this.walletList = _.cloneDeep(this.completeList)
+      if(pattern === ""){
+        return;
+      }
+      let i = this.walletList.length
+      while(i--){
+        if (this.walletList[i].label.toUpperCase().indexOf(pattern) == -1) {
+          this.walletList.splice(i, 1); 
+        }
+      }
+    },
+    onSuccess(msg, needRefetch){
+      this.$toast.success(msg)
+      setTimeout(this.$toast.clear, 3000)
+      if(needRefetch){
+        this.fetchWallets()
+      }
+    },
+    onError(msg){
+      this.$toast.error(msg)
     }
   },
   beforeMount() {
