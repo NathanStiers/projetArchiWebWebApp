@@ -7,7 +7,6 @@
          @keyup="search"
   >
   <div class="asset">
-    
     <!-- List of all the assets in the user's selected wallet -->
     <AssetCard v-for="asset in assetList" :key="asset.ticker" class="assetItem" :type="type"
                :asset="asset" :api-data="apiData[asset.ticker]" @sucess="onSuccess" @error="onError"

@@ -1,5 +1,4 @@
 <template>
-
   <!-- Asset creation invitation window -->
   <div class="addWallet" @click="toggleModal()">
     <p>+</p>

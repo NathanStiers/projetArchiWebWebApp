@@ -6,7 +6,6 @@
          @keyup="search"
   >
   <div class="wallet">
-    
     <!-- Shows all the user's wallets -->
     <WalletCard v-for="(wallet, index) in walletList" :key="wallet.id" class="walletItem" :wallet="wallet"
                 :index="index" @sucess="onSuccess" @error="onError"
