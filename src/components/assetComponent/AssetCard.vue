@@ -1,44 +1,27 @@
 <template>
   <div>
     <div class="assetCard">
-      <div
-        class="infoCard"
-        @click="toggleModal()"
-      >
+      <div class="infoCard" @click="toggleModal()">
         (?)
       </div>
       <p>{{ asset.label }} <i><small>{{ asset.ticker }}</small></i> </p>
-      <p
-        v-if="!isEditingQty"
-        @click="toggleEditigingQty()"
-      >
+      <p v-if="!isEditingQty" @click="toggleEditigingQty()">
         Quantity : {{ asset.quantity }} units
       </p>
 
       <!-- Change the quantity of a specific asset form -->
       <div v-else>
-        Quantity : <input
-          type="text"
-          :placeholder="asset.quantity"
-          :value="asset.quantity"
-        >
+        Quantity : <input type="text" :placeholder="asset.quantity" :value="asset.quantity">
         <span @click="sendNewValueQty($event)">(V)</span>
         <span @click="toggleEditigingQty()">(X)</span>
       </div>
-      <p
-        v-if="!isEditingInvest"
-        @click="toggleEditigingInvest()"
-      >
+      <p v-if="!isEditingInvest" @click="toggleEditigingInvest()">
         Amount invested : {{ asset.invested_amount }} €
       </p>
 
       <!-- Change the initial investment of a specific asset form -->
       <div v-else>
-        Amount invested : <input
-          type="text"
-          :placeholder="asset.invested_amount"
-          :value="asset.invested_amount"
-        >
+        Amount invested : <input type="text" :placeholder="asset.invested_amount" :value="asset.invested_amount">
         <span @click="sendNewValueInvest($event)">(V)</span>
         <span @click="toggleEditigingInvest()">(X)</span>
       </div>
@@ -48,11 +31,7 @@
     </div>
 
     <!-- Details of a specific asset -->
-    <vue-final-modal
-      v-model="showModal"
-      classes="modal-container"
-      content-class="modal-content"
-    >
+    <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
       <span class="modal__title">Deeper information</span>
       <div class="modal__content">
         <p>Unit cost price : {{ (asset.invested_amount/asset.quantity).toFixed(2) }} €</p>
@@ -70,16 +49,10 @@
         </p>
       </div>
       <div class="modal__action">
-        <button
-          class="vfm-btn"
-          @click="deleteAsset()"
-        >
+        <button class="vfm-btn" @click="deleteAsset()">
           Delete asset
         </button>
-        <button
-          class="vfm-btn"
-          @click="toggleModal()"
-        >
+        <button class="vfm-btn" @click="toggleModal()">
           Close window
         </button>
       </div>

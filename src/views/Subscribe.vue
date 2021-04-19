@@ -4,12 +4,8 @@
     <h1>Subscribe page</h1>
 
     <!-- Create a new account form -->
-    <FormSubscribe
-      @valueNameChanged="onValueNameChanged"
-      @valueSurnameChanged="onValueSurnameChanged"
-      @valueMailChanged="onValueMailChanged"
-      @valuePasswordChanged="onValuePasswordChanged"
-      @valuePasswordConfirmChanged="onValuePasswordConfirmChanged"
+    <FormSubscribe @valueNameChanged="onValueNameChanged" @valueSurnameChanged="onValueSurnameChanged" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged"
+                   @valuePasswordConfirmChanged="onValuePasswordConfirmChanged"
     />
     <button @click="createUser()">
       Create my account

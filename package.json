@@ -49,7 +49,15 @@
       "parser": "babel-eslint",
       "sourceType": "module"
     },
-    "rules": {}
+    "rules": {
+      "vue/max-attributes-per-line": ["error", {
+        "singleline": 4,
+        "multiline": {
+          "max": 6,
+          "allowFirstLine": true
+        }
+      }]
+    }
   },
   "browserslist": [
     "> 1%",

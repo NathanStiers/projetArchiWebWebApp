@@ -2,32 +2,19 @@
   <Menu />
 
   <!-- Search form -->
-  <input
-    id="searchWallet"
-    v-model="searchLabel"
-    type="text"
-    placeholder="Search a wallet"
-    @keyup="search"
+  <input id="searchWallet" v-model="searchLabel" type="text" placeholder="Search a wallet"
+         @keyup="search"
   >
   <div class="wallet">
+    
     <!-- Shows all the user's wallets -->
-    <WalletCard
-      v-for="(wallet, index) in walletList"
-      :key="wallet.id"
-      class="walletItem"
-      :wallet="wallet"
-      :index="index"
-      @sucess="onSuccess"
-      @error="onError"
+    <WalletCard v-for="(wallet, index) in walletList" :key="wallet.id" class="walletItem" :wallet="wallet"
+                :index="index" @sucess="onSuccess" @error="onError"
     />  
     
     <!-- Add wallet form -->
-    <AddWalletCard
-      v-if="!maxReached"
-      class="walletItem"
-      :types="types"
-      @sucess="onSuccess"
-      @error="onError"
+    <AddWalletCard v-if="!maxReached" class="walletItem" :types="types" @sucess="onSuccess"
+                   @error="onError"
     />
   </div>
 </template>

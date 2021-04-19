@@ -4,11 +4,7 @@
     <h1>Login page</h1>
 
     <!-- Login form -->
-    <FormLogin
-      id="formLogin"
-      @valueMailChanged="onValueMailChanged"
-      @valuePasswordChanged="onValuePasswordChanged"
-    />
+    <FormLogin id="formLogin" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged" />
     <button @click="forgotPassword()">
       I forgot my password
     </button>

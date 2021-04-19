@@ -3,33 +3,18 @@
   <h1>Asset page</h1>
 
   <!-- Search an asset based on label form -->
-  <input
-    id="searchAsset"
-    v-model="searchLabel"
-    type="text"
-    placeholder="Search an asset"
-    @keyup="search"
+  <input id="searchAsset" v-model="searchLabel" type="text" placeholder="Search an asset"
+         @keyup="search"
   >
   <div class="asset">
+    
     <!-- List of all the assets in the user's selected wallet -->
-    <AssetCard
-      v-for="asset in assetList"
-      :key="asset.ticker"
-      class="assetItem"
-      :type="type"
-      :asset="asset"
-      :api-data="apiData[asset.ticker]"
-      @sucess="onSuccess"
-      @error="onError"
+    <AssetCard v-for="asset in assetList" :key="asset.ticker" class="assetItem" :type="type"
+               :asset="asset" :api-data="apiData[asset.ticker]" @sucess="onSuccess" @error="onError"
     />  
     
     <!-- Add an asset form -->
-    <AddAssetCard
-      class="assetItem"
-      :asset-list="assetsFromTypeList"
-      @sucess="onSuccess"
-      @error="onError"
-    />
+    <AddAssetCard class="assetItem" :asset-list="assetsFromTypeList" @sucess="onSuccess" @error="onError" />
   </div>
 </template>
 

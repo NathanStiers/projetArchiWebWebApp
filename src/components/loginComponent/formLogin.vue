@@ -1,23 +1,14 @@
 <template>
   <div>
-    Mail : <input
-      id=""
-      v-model="mail"
-      type="email"
-      name=""
-    >
-    Password : <input
-      id=""
-      v-model="password"
-      type="password"
-      name=""
-    >
+    Mail : <input v-model="mail" type="email">
+    Password : <input v-model="password" type="password">
   </div>
 </template>
 
 <script>
 export default {
     name: 'FormLogin',
+    emits : ['valueMailChanged', 'valuePasswordChanged'],
     computed: {
         mail: {
             get: function() {

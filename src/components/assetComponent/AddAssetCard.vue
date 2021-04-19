@@ -1,62 +1,31 @@
 <template>
+
   <!-- Asset creation invitation window -->
-  <div
-    class="addWallet"
-    @click="toggleModal()"
-  >
+  <div class="addWallet" @click="toggleModal()">
     <p>+</p>
     <p>Add a new</p>
     <p>asset</p>
   </div>
 
   <!-- Asset creation by modal window -->
-  <vue-final-modal
-    v-model="showModal"
-    classes="modal-container"
-    content-class="modal-content"
-  >
+  <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
     <span class="modal__title">Add a new asset</span>
     <div class="modal__content">
-      <select
-        id=""
-        v-model="assetName"
-        name=""
-      >
-        <option
-          v-for="asset in assetList"
-          :key="asset.id"
-        >
+      <select v-model="assetName">
+        <option v-for="asset in assetList" :key="asset.id">
           {{ asset.label }}
         </option>
       </select>
       <br><br>
-      Quantity : <input
-        id=""
-        v-model="quantity"
-        type="number"
-        name="quantity"
-        step="0.000000001"
-      > €
+      Quantity : <input v-model="quantity" type="number" name="quantity" step="0.000000001"> €
       <br><br>
-      Amount invested : <input
-        id=""
-        v-model="invested_amount"
-        type="number"
-        name="invested_amount"
-        step="0.001"
-      > units
+      Amount invested : <input v-model="invested_amount" type="number" name="invested_amount" step="0.001"> units
     </div>
     <div class="modal__action">
-      <button
-        class="vfm-btn"
-        @click="addAsset()"
-      >
+      <button class="vfm-btn" @click="addAsset()">
         Confirm
       </button>
-      <button
-        class="vfm-btn"
-        @click="toggleModal()"
-      >
+      <button class="vfm-btn" @click="toggleModal()">
         Cancel
       </button>
     </div>

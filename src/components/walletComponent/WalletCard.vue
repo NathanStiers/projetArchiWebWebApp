@@ -1,42 +1,18 @@
 <template>
-  <div
-    class="walletCard"
-    @click="fetchAssets($event)"
-  >
-    <div
-      class="deleteCard"
-      @click="deleteWallet()"
-    >
+  <div class="walletCard" @click="fetchAssets($event)">
+    <div class="deleteCard" @click="deleteWallet()">
       X
     </div>
     <p>Wallet {{ index+1 }}</p>
-    <p
-      v-if="!isEditing"
-      class="renameCard"
-      @click="toggleEditiging()"
-    >
+    <p v-if="!isEditing" class="renameCard" @click="toggleEditiging()">
       {{ wallet.label }}
     </p>
 
     <!-- Change the name of a the current wallet form -->
-    <div
-      v-else
-      class="renameCard"
-    >
-      <input
-        type="text"
-        :placeholder="wallet.label"
-        :value="wallet.label"
-        class="renameCard"
-      >
-      <span
-        class="renameCard"
-        @click="sendNewLabel($event)"
-      >(V)</span>
-      <span
-        class="renameCard"
-        @click="toggleEditiging()"
-      >(X)</span>
+    <div v-else class="renameCard">
+      <input type="text" :placeholder="wallet.label" :value="wallet.label" class="renameCard">
+      <span class="renameCard" @click="sendNewLabel($event)">(V)</span>
+      <span class="renameCard" @click="toggleEditiging()">(X)</span>
     </div>
     <p>Type : {{ wallet.type }}</p>
   </div>

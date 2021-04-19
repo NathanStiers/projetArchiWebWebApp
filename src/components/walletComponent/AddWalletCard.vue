@@ -1,55 +1,29 @@
 <template>
+
   <!-- Wallet creation invitation window -->
-  <div
-    class="addWallet"
-    @click="toggleModal()"
-  >
+  <div class="addWallet" @click="toggleModal()">
     <p>+</p>
     <p>Add a new</p>
     <p>wallet</p>
   </div>
     
   <!-- Wallet creation by modal window -->
-  <vue-final-modal
-    v-model="showModal"
-    classes="modal-container"
-    content-class="modal-content"
-  >
+  <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
     <span class="modal__title">Add a new wallet</span>
     <div class="modal__content">
-      Label : <input
-        id=""
-        v-model="label"
-        type="text"
-        name=""
-        maxlength="50"
-      >
+      Label : <input v-model="label" type="text" maxlength="50">
       <br><br>
-      Type : <select
-        id=""
-        v-model="type"
-        name=""
-      >
-        <option
-          v-for="typeItem in types"
-          :key="typeItem.id"
-          :type="typeItem"
-        >
+      Type : <select v-model="type">
+        <option v-for="typeItem in types" :key="typeItem.id" :type="typeItem">
           {{ typeItem }}
         </option>
       </select>
     </div>
     <div class="modal__action">
-      <button
-        class="vfm-btn"
-        @click="createWallet()"
-      >
+      <button class="vfm-btn" @click="createWallet()">
         Confirm
       </button>
-      <button
-        class="vfm-btn"
-        @click="toggleModal()"
-      >
+      <button class="vfm-btn" @click="toggleModal()">
         Cancel
       </button>
     </div>

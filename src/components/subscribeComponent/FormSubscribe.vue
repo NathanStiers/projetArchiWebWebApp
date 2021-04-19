@@ -1,41 +1,17 @@
 <template>
   <div>
-    Name : <input
-      id=""
-      v-model="name"
-      type="text"
-      name=""
-    >
-    Surname : <input
-      id=""
-      v-model="surname"
-      type="text"
-      name=""
-    >
-    Mail : <input
-      id=""
-      v-model="mail"
-      type="text"
-      name=""
-    >
-    Password  : <input
-      id=""
-      v-model="password"
-      type="password"
-      name=""
-    >
-    Confirm password : <input
-      id=""
-      v-model="passwordConfirm"
-      type="password"
-      name=""
-    >
+    Name : <input v-model="name" type="text">
+    Surname : <input v-model="surname" type="text">
+    Mail : <input v-model="mail" type="text">
+    Password  : <input v-model="password" type="password">
+    Confirm password : <input v-model="passwordConfirm" type="password">
   </div>
 </template>
 
 <script>
 export default {
     name: 'FormSubscribe',
+    emits : ['valueMailChanged', 'valuePasswordChanged', 'valueNameChanged', 'valueSurnameChanged', 'valuePasswordConfirmChanged'],
     computed: {
         name: {
             get: function() {
