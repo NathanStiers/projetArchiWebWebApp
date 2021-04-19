@@ -1,8 +1,11 @@
 <template>
-  <Menu/>
-  <div class="home" id="homeContainer">
+  <Menu />
+  <div
+    id="homeContainer"
+    class="home"
+  >
     <div id="welcome">
-    <p>Welcome to your new online investment portfolio !</p>
+      <p>Welcome to your new online investment portfolio !</p>
       <p>Our application will allow you to monitor your different assets regardless of their type.</p>
       <p>For example :</p>
       <ul>
@@ -15,8 +18,18 @@
       <p>Don't wait any longer, registration is free. More features will be offered with a Premium account (free for the moment, enjoy it).</p>
     </div>
     <div id="subAndLog">
-      <router-link class="button" to="/login">Login</router-link>
-      <router-link class="button" to="/subscribe">Sign up</router-link>
+      <router-link
+        class="button"
+        to="/login"
+      >
+        Login
+      </router-link>
+      <router-link
+        class="button"
+        to="/subscribe"
+      >
+        Sign up
+      </router-link>
     </div>
   </div>
 </template>

@@ -1,11 +1,36 @@
 <template>
-    <div>
-        Name : <input v-model="name" type="text" name="" id="">
-        Surname : <input v-model="surname" type="text" name="" id="">
-        Mail : <input v-model="mail" type="text" name="" id="">
-        Password  : <input v-model="password" type="password" name="" id="">
-        Confirm password : <input v-model="passwordConfirm" type="password" name="" id="">
-    </div>
+  <div>
+    Name : <input
+      id=""
+      v-model="name"
+      type="text"
+      name=""
+    >
+    Surname : <input
+      id=""
+      v-model="surname"
+      type="text"
+      name=""
+    >
+    Mail : <input
+      id=""
+      v-model="mail"
+      type="text"
+      name=""
+    >
+    Password  : <input
+      id=""
+      v-model="password"
+      type="password"
+      name=""
+    >
+    Confirm password : <input
+      id=""
+      v-model="passwordConfirm"
+      type="password"
+      name=""
+    >
+  </div>
 </template>
 
 <script>

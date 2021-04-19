@@ -1,17 +1,45 @@
 <template>
-    <div class="walletCard" v-on:click="fetchAssets($event)">
-        <div class="deleteCard" v-on:click="deleteWallet()">X</div>
-        <p>Wallet {{index+1}}</p>
-        <p v-if="!isEditing" v-on:click="toggleEditiging()" class="renameCard">{{wallet.label}}</p>
-
-        <!-- Change the name of a the current wallet form -->
-        <div v-else class="renameCard">
-            <input type="text" v-bind:placeholder="wallet.label" v-bind:value="wallet.label" class="renameCard"/>
-            <span v-on:click="sendNewLabel($event)" class="renameCard">(V)</span>
-            <span v-on:click="toggleEditiging()" class="renameCard">(X)</span>
-        </div>
-        <p>Type : {{wallet.type}}</p>
+  <div
+    class="walletCard"
+    @click="fetchAssets($event)"
+  >
+    <div
+      class="deleteCard"
+      @click="deleteWallet()"
+    >
+      X
     </div>
+    <p>Wallet {{ index+1 }}</p>
+    <p
+      v-if="!isEditing"
+      class="renameCard"
+      @click="toggleEditiging()"
+    >
+      {{ wallet.label }}
+    </p>
+
+    <!-- Change the name of a the current wallet form -->
+    <div
+      v-else
+      class="renameCard"
+    >
+      <input
+        type="text"
+        :placeholder="wallet.label"
+        :value="wallet.label"
+        class="renameCard"
+      >
+      <span
+        class="renameCard"
+        @click="sendNewLabel($event)"
+      >(V)</span>
+      <span
+        class="renameCard"
+        @click="toggleEditiging()"
+      >(X)</span>
+    </div>
+    <p>Type : {{ wallet.type }}</p>
+  </div>
 </template>
 
 <script>
@@ -21,7 +49,17 @@ const toolbox = require("../../Toolbox.js");
 
 export default {
     name: 'WalletCard',
-    props: ['wallet', 'index'],
+    props: {
+      wallet : {
+        type : Object,
+        default : undefined
+      },
+      index : {
+        type : Number,
+        default : undefined
+      }
+    },
+    emits : ['sucess', 'error'],
     data(){
         return{
             uri: "http://localhost:3000",

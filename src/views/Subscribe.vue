@@ -1,11 +1,19 @@
 <template>
-  <Menu/>
+  <Menu />
   <div class="subscribe">
     <h1>Subscribe page</h1>
 
-      <!-- Create a new account form -->
-      <FormSubscribe @valueNameChanged="onValueNameChanged" @valueSurnameChanged="onValueSurnameChanged" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged" @valuePasswordConfirmChanged="onValuePasswordConfirmChanged"/>
-      <button v-on:click="createUser()">Create my account</button>
+    <!-- Create a new account form -->
+    <FormSubscribe
+      @valueNameChanged="onValueNameChanged"
+      @valueSurnameChanged="onValueSurnameChanged"
+      @valueMailChanged="onValueMailChanged"
+      @valuePasswordChanged="onValuePasswordChanged"
+      @valuePasswordConfirmChanged="onValuePasswordConfirmChanged"
+    />
+    <button @click="createUser()">
+      Create my account
+    </button>
   </div>
 </template>
 
@@ -18,6 +26,10 @@ import FormSubscribe from '@/components/subscribeComponent/FormSubscribe.vue'
 
 export default {
   name: 'Subscribe',
+  components:{
+    Menu,
+    FormSubscribe
+  },
   data() {
     return{
       name: "",
@@ -28,9 +40,10 @@ export default {
       uri: "http://localhost:3000"
     }
   },
-  components:{
-    Menu,
-    FormSubscribe
+  beforeMount() {
+    if(toolbox.checkIfConnected()){
+      this.$router.replace({ name: 'Wallet' })
+    }
   },
   methods: {
     onValueNameChanged(newValue) {
@@ -86,11 +99,6 @@ export default {
     },
     onError(msg){
       this.$toast.error(msg)
-    }
-  },
-  beforeMount() {
-    if(toolbox.checkIfConnected()){
-      this.$router.replace({ name: 'Wallet' })
     }
   }
 }

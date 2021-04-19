@@ -1,22 +1,24 @@
 <template>
-  <Menu/>
+  <Menu />
   <div class="premium">
     <h1>Premium page</h1>
-      <div>
-        <p>What are the advantages of the premium mode?</p>
-        <p>
-          For the moment, users with a basic subscription can't create more than 3 wallets.<br/>
-          A premium user will have the opportunity to create up to 10 wallets!
-        </p>
-        <p>In addition, it will unlock certain features:</p>
-        <ul>
-          <li>The use of price alerts</li>
-          <li>The use of more assets</li>
-          <li>And many more</li>
-        </ul>
-        <p>As these features are not yet implemented on the site, the premium subscription is, for a limited time, free for all.</p>
-      </div>
-      <button v-on:click="upgradeUser()">Become a Premium Member</button>
+    <div>
+      <p>What are the advantages of the premium mode?</p>
+      <p>
+        For the moment, users with a basic subscription can't create more than 3 wallets.<br>
+        A premium user will have the opportunity to create up to 10 wallets!
+      </p>
+      <p>In addition, it will unlock certain features:</p>
+      <ul>
+        <li>The use of price alerts</li>
+        <li>The use of more assets</li>
+        <li>And many more</li>
+      </ul>
+      <p>As these features are not yet implemented on the site, the premium subscription is, for a limited time, free for all.</p>
+    </div>
+    <button @click="upgradeUser()">
+      Become a Premium Member
+    </button>
   </div>
 </template>
 
@@ -28,13 +30,18 @@ import Menu from '@/components/menu/Header.vue'
 
 export default {
   name: 'Premium',
+  components:{
+    Menu
+  },
   data() {
     return{
       uri: "http://localhost:3000"
     }
   },
-  components:{
-    Menu
+  beforeMount() {
+    if(!toolbox.checkIfConnected()){
+      this.$router.replace({ name: 'Home' })
+    }
   },
   methods:{
     upgradeUser() {
@@ -58,11 +65,6 @@ export default {
     },
     onError(msg){
       this.$toast.error(msg)
-    }
-  },
-  beforeMount() {
-    if(!toolbox.checkIfConnected()){
-      this.$router.replace({ name: 'Home' })
     }
   }
 }

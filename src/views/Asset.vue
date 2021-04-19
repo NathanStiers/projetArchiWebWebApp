@@ -1,16 +1,35 @@
 <template>
-  <Menu/>
+  <Menu />
   <h1>Asset page</h1>
 
   <!-- Search an asset based on label form -->
-  <input type="text" id="searchAsset" v-model="searchLabel" v-on:keyup="search" placeholder="Search an asset">
+  <input
+    id="searchAsset"
+    v-model="searchLabel"
+    type="text"
+    placeholder="Search an asset"
+    @keyup="search"
+  >
   <div class="asset">
-
     <!-- List of all the assets in the user's selected wallet -->
-    <AssetCard class="assetItem" v-for="asset in assetList" v-bind:key="asset.ticker" v-bind:type="type" v-bind:asset="asset" v-bind:apiData="apiData[asset.ticker]" @sucess="onSuccess" @error="onError"/>  
+    <AssetCard
+      v-for="asset in assetList"
+      :key="asset.ticker"
+      class="assetItem"
+      :type="type"
+      :asset="asset"
+      :api-data="apiData[asset.ticker]"
+      @sucess="onSuccess"
+      @error="onError"
+    />  
     
     <!-- Add an asset form -->
-    <AddAssetCard class="assetItem" v-bind:assetList="assetsFromTypeList" @sucess="onSuccess" @error="onError"/>
+    <AddAssetCard
+      class="assetItem"
+      :asset-list="assetsFromTypeList"
+      @sucess="onSuccess"
+      @error="onError"
+    />
   </div>
 </template>
 
@@ -25,6 +44,11 @@ var _ = require('lodash');
 
 export default {
   name: 'Asset',
+  components:{
+    Menu,
+    AssetCard,
+    AddAssetCard
+  },
   data(){
     return{
       uri: "http://localhost:3000",
@@ -36,10 +60,12 @@ export default {
       completeList: [],
     }
   },
-  components:{
-    Menu,
-    AssetCard,
-    AddAssetCard
+  beforeMount() {
+    if(!toolbox.checkIfConnected()){
+      this.$router.replace({ name: 'Home' })
+      return;
+    }
+    this.fetchAssets()
   },
   methods:{
     fetchAssets(){
@@ -82,13 +108,6 @@ export default {
     onError(msg){
       this.$toast.error(msg)
     }
-  },
-  beforeMount() {
-    if(!toolbox.checkIfConnected()){
-      this.$router.replace({ name: 'Home' })
-      return;
-    }
-    this.fetchAssets()
   }
 }
 

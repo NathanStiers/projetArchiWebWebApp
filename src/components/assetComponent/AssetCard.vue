@@ -1,43 +1,90 @@
 <template>
-    <div>
-        <div class="assetCard">
-            <div class="infoCard" v-on:click="toggleModal()">(?)</div>
-            <p>{{asset.label}} <i><small>{{asset.ticker}}</small></i> </p>
-            <p v-if="!isEditingQty" v-on:click="toggleEditigingQty()">Quantity : {{asset.quantity}} units</p>
+  <div>
+    <div class="assetCard">
+      <div
+        class="infoCard"
+        @click="toggleModal()"
+      >
+        (?)
+      </div>
+      <p>{{ asset.label }} <i><small>{{ asset.ticker }}</small></i> </p>
+      <p
+        v-if="!isEditingQty"
+        @click="toggleEditigingQty()"
+      >
+        Quantity : {{ asset.quantity }} units
+      </p>
 
-            <!-- Change the quantity of a specific asset form -->
-            <div v-else>
-                Quantity : <input type="text" v-bind:placeholder="asset.quantity" v-bind:value="asset.quantity" />
-                <span v-on:click="sendNewValueQty($event)">(V)</span>
-                <span v-on:click="toggleEditigingQty()">(X)</span>
-            </div>
-            <p v-if="!isEditingInvest" v-on:click="toggleEditigingInvest()">Amount invested : {{asset.invested_amount}} €</p>
+      <!-- Change the quantity of a specific asset form -->
+      <div v-else>
+        Quantity : <input
+          type="text"
+          :placeholder="asset.quantity"
+          :value="asset.quantity"
+        >
+        <span @click="sendNewValueQty($event)">(V)</span>
+        <span @click="toggleEditigingQty()">(X)</span>
+      </div>
+      <p
+        v-if="!isEditingInvest"
+        @click="toggleEditigingInvest()"
+      >
+        Amount invested : {{ asset.invested_amount }} €
+      </p>
 
-            <!-- Change the initial investment of a specific asset form -->
-            <div v-else>
-                Amount invested : <input type="text" v-bind:placeholder="asset.invested_amount" v-bind:value="asset.invested_amount" />
-                <span v-on:click="sendNewValueInvest($event)">(V)</span>
-                <span v-on:click="toggleEditigingInvest()">(X)</span>
-            </div>
-            <p v-if="type=='Crypto-assets'">Current value : {{(asset.quantity * apiData.price).toFixed(2)}} €</p>
-        </div>
-
-        <!-- Details of a specific asset -->
-        <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
-            <span class="modal__title">Deeper information</span>
-            <div class="modal__content">
-                <p>Unit cost price : {{(asset.invested_amount/asset.quantity).toFixed(2)}} €</p>
-                <p v-if="type=='Crypto-assets'">Current value : {{(asset.quantity * apiData.price).toFixed(2)}} €</p>
-                <p v-if="type==='Crypto-assets'">Max supply : {{apiData.max_supply}} unités</p>
-                <p v-if="type==='Crypto-assets'">Total supply : {{apiData.total_supply}} unités</p>
-                <p v-if="type==='Crypto-assets'">Market cap : {{apiData.market_cap}} €</p>
-            </div>
-            <div class="modal__action">
-                <button class="vfm-btn" v-on:click="deleteAsset()">Delete asset</button>
-                <button class="vfm-btn" v-on:click="toggleModal()">Close window</button>
-            </div>
-        </vue-final-modal>
+      <!-- Change the initial investment of a specific asset form -->
+      <div v-else>
+        Amount invested : <input
+          type="text"
+          :placeholder="asset.invested_amount"
+          :value="asset.invested_amount"
+        >
+        <span @click="sendNewValueInvest($event)">(V)</span>
+        <span @click="toggleEditigingInvest()">(X)</span>
+      </div>
+      <p v-if="type=='Crypto-assets'">
+        Current value : {{ (asset.quantity * apiData.price).toFixed(2) }} €
+      </p>
     </div>
+
+    <!-- Details of a specific asset -->
+    <vue-final-modal
+      v-model="showModal"
+      classes="modal-container"
+      content-class="modal-content"
+    >
+      <span class="modal__title">Deeper information</span>
+      <div class="modal__content">
+        <p>Unit cost price : {{ (asset.invested_amount/asset.quantity).toFixed(2) }} €</p>
+        <p v-if="type=='Crypto-assets'">
+          Current value : {{ (asset.quantity * apiData.price).toFixed(2) }} €
+        </p>
+        <p v-if="type==='Crypto-assets'">
+          Max supply : {{ apiData.max_supply }} unités
+        </p>
+        <p v-if="type==='Crypto-assets'">
+          Total supply : {{ apiData.total_supply }} unités
+        </p>
+        <p v-if="type==='Crypto-assets'">
+          Market cap : {{ (apiData.market_cap).toFixed(2) }} €
+        </p>
+      </div>
+      <div class="modal__action">
+        <button
+          class="vfm-btn"
+          @click="deleteAsset()"
+        >
+          Delete asset
+        </button>
+        <button
+          class="vfm-btn"
+          @click="toggleModal()"
+        >
+          Close window
+        </button>
+      </div>
+    </vue-final-modal>
+  </div>
 </template>
 
 <script>
@@ -48,7 +95,21 @@ const toolbox = require("../../Toolbox.js");
 
 export default {
     name: 'AssetCard',
-    props: ['asset', 'apiData', 'type'],
+    props: {
+      asset : {
+        type : Object,
+        default : undefined
+      },
+      apiData : {
+        type : Object,
+        default : undefined
+      },
+      type : {
+        type : String,
+        default : undefined
+      }
+    },
+    emits : ['sucess', 'error'],
     data(){
         return{
             uri: "http://localhost:3000",

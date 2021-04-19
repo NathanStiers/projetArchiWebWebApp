@@ -1,12 +1,20 @@
 <template>
-  <Menu/>
+  <Menu />
   <div class="login">
     <h1>Login page</h1>
 
-      <!-- Login form -->
-      <FormLogin id="formLogin" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged"/>
-      <button v-on:click="forgotPassword()">I forgot my password</button>
-      <button v-on:click="connectUser()">Send my credentials</button>
+    <!-- Login form -->
+    <FormLogin
+      id="formLogin"
+      @valueMailChanged="onValueMailChanged"
+      @valuePasswordChanged="onValuePasswordChanged"
+    />
+    <button @click="forgotPassword()">
+      I forgot my password
+    </button>
+    <button @click="connectUser()">
+      Send my credentials
+    </button>
   </div>
 </template>
 
@@ -20,6 +28,10 @@ const toolbox = require("../Toolbox.js");
 
 export default {
   name: 'Login',
+  components: {
+    FormLogin,
+    Menu
+  },
   data() {
     return{
       mail: "",
@@ -27,9 +39,10 @@ export default {
       uri: "http://localhost:3000"
     }
   },
-  components: {
-    FormLogin,
-    Menu
+  beforeMount() {
+    if(toolbox.checkIfConnected()){
+      this.$router.replace({ name: 'Wallet' })
+    }
   },
   methods: {
     onValueMailChanged(newValue) {
@@ -75,7 +88,7 @@ export default {
         mail : this.mail
       }).then((response) => {
         if (response.status === 200) {
-          this.onSuccess("Email envoyé à : " + this.mail)
+          this.onSuccess("Email sent to : " + this.mail)
         }
       }).catch((error) => {
         this.onError(error.response.data)
@@ -87,11 +100,6 @@ export default {
     },
     onError(msg){
       this.$toast.error(msg)
-    }
-  },
-  beforeMount() {
-    if(toolbox.checkIfConnected()){
-      this.$router.replace({ name: 'Wallet' })
     }
   }
 }

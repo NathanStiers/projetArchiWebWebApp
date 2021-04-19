@@ -1,16 +1,16 @@
 <template>
-  <Menu/>
+  <Menu />
   <div class="statistics">
     <h1>Statistics page</h1>
     <div v-if="(typeof howMuchType !== 'undefined' && countUniqueAssets)">
-            <p>Number of crypto-assets : {{howMuchType["Crypto-assets"]}} </p>
-            <p>Number of stocks : {{howMuchType.Stocks}} </p>
-            <p>Number of unique assets : {{countUniqueAssets}} </p>
-            <p>Total P/L (of crypto-assets) : {{totalProfit.toFixed(2)}} €</p>
-            <p>Best Unit Cost Price :  {{pruComparison.best[0]}}  =>  {{pruComparison.best[1].toFixed(2)}}€</p>
-            <p>Worst Unit Cost Price : {{pruComparison.worst[0]}}  =>  {{pruComparison.worst[1].toFixed(2)}}€</p>
-            <p>Best value (of crypto-assets) : {{valueComparison.best[0]}}  =>  {{valueComparison.best[1].toFixed(2)}}€</p>
-            <p>Worst value (of crypto-assets) : {{valueComparison.worst[0]}}  =>  {{valueComparison.worst[1].toFixed(2)}}€</p>
+      <p>Number of crypto-assets : {{ howMuchType["Crypto-assets"] }} </p>
+      <p>Number of stocks : {{ howMuchType.Stocks }} </p>
+      <p>Number of unique assets : {{ countUniqueAssets }} </p>
+      <p>Total P/L (of crypto-assets) : {{ totalProfit.toFixed(2) }} €</p>
+      <p>Best Unit Cost Price :  {{ pruComparison.best[0] }}  =>  {{ pruComparison.best[1].toFixed(2) }}€</p>
+      <p>Worst Unit Cost Price : {{ pruComparison.worst[0] }}  =>  {{ pruComparison.worst[1].toFixed(2) }}€</p>
+      <p>Best value (of crypto-assets) : {{ valueComparison.best[0] }}  =>  {{ valueComparison.best[1].toFixed(2) }}€</p>
+      <p>Worst value (of crypto-assets) : {{ valueComparison.worst[0] }}  =>  {{ valueComparison.worst[1].toFixed(2) }}€</p>
     </div>
     <div v-else>
       <p>You don't have any asset for the moment</p>
@@ -26,6 +26,9 @@ import axios from "axios";
 
 export default {
   name: 'Statistics',
+  components:{
+    Menu
+  },
   data() {
     return{
       howMuchType: undefined,
@@ -34,18 +37,6 @@ export default {
       pruComparison: {},
       valueComparison: {},
       uri: "http://localhost:3000"
-    }
-  },
-  components:{
-    Menu
-  },
-  methods:{
-    onSuccess(msg){
-      this.$toast.success(msg)
-      setTimeout(this.$toast.clear, 3000)
-    },
-    onError(msg){
-      this.$toast.error(msg)
     }
   },
   beforeMount() {
@@ -66,6 +57,15 @@ export default {
       }).catch((error) => {
         this.onError(error.response.data)
       });
+    }
+  },
+  methods:{
+    onSuccess(msg){
+      this.$toast.success(msg)
+      setTimeout(this.$toast.clear, 3000)
+    },
+    onError(msg){
+      this.$toast.error(msg)
     }
   }
 }

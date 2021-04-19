@@ -1,27 +1,59 @@
 <template>
-
-    <!-- Wallet creation invitation window -->
-    <div class="addWallet" v-on:click="toggleModal()">
-        <p>+</p>
-        <p>Add a new</p>
-        <p>wallet</p>
-    </div>
+  <!-- Wallet creation invitation window -->
+  <div
+    class="addWallet"
+    @click="toggleModal()"
+  >
+    <p>+</p>
+    <p>Add a new</p>
+    <p>wallet</p>
+  </div>
     
-    <!-- Wallet creation by modal window -->
-    <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
-      <span class="modal__title">Add a new wallet</span>
-      <div class="modal__content">
-        Label : <input v-model="label" type="text" name="" id="" maxlength="50">
-        <br/><br/>
-        Type : <select v-model="type" name="" id="">
-            <option v-for="type in types" v-bind:key="type.id" v-bind:type="type" >{{type}}</option>
-        </select>
-      </div>
-      <div class="modal__action">
-        <button class="vfm-btn" v-on:click="createWallet()">Confirm</button>
-        <button class="vfm-btn" v-on:click="toggleModal()">Cancel</button>
-      </div>
-    </vue-final-modal>
+  <!-- Wallet creation by modal window -->
+  <vue-final-modal
+    v-model="showModal"
+    classes="modal-container"
+    content-class="modal-content"
+  >
+    <span class="modal__title">Add a new wallet</span>
+    <div class="modal__content">
+      Label : <input
+        id=""
+        v-model="label"
+        type="text"
+        name=""
+        maxlength="50"
+      >
+      <br><br>
+      Type : <select
+        id=""
+        v-model="type"
+        name=""
+      >
+        <option
+          v-for="typeItem in types"
+          :key="typeItem.id"
+          :type="typeItem"
+        >
+          {{ typeItem }}
+        </option>
+      </select>
+    </div>
+    <div class="modal__action">
+      <button
+        class="vfm-btn"
+        @click="createWallet()"
+      >
+        Confirm
+      </button>
+      <button
+        class="vfm-btn"
+        @click="toggleModal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </vue-final-modal>
 </template>
 
 <script>
@@ -31,7 +63,13 @@ const toolbox = require("../../Toolbox.js");
 
 export default {
     name: 'AddWalletCard',
-    props: ['types'],
+    props: {
+      types : {
+        type : Array,
+        default : undefined
+      }
+    },
+    emits : ['sucess', 'error'],
     data(){
         return{
             uri: "http://localhost:3000",

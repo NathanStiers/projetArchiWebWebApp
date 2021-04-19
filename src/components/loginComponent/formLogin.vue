@@ -1,8 +1,18 @@
 <template>
-    <div>
-        Mail : <input v-model="mail" type="email" name="" id="">
-        Password : <input v-model="password" type="password" name="" id="">
-    </div>
+  <div>
+    Mail : <input
+      id=""
+      v-model="mail"
+      type="email"
+      name=""
+    >
+    Password : <input
+      id=""
+      v-model="password"
+      type="password"
+      name=""
+    >
+  </div>
 </template>
 
 <script>
