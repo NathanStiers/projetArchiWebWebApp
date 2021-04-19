@@ -2,7 +2,14 @@
     <div class="walletCard" v-on:click="fetchAssets($event)">
         <div class="deleteCard" v-on:click="deleteWallet()">X</div>
         <p>Wallet {{index+1}}</p>
-        <p>{{wallet.label}}</p>
+        <p v-if="!isEditing" v-on:click="toggleEditiging()" class="renameCard">{{wallet.label}}</p>
+
+        <!-- Change the name of a the current wallet form -->
+        <div v-else class="renameCard">
+            <input type="text" v-bind:placeholder="wallet.label" v-bind:value="wallet.label" class="renameCard"/>
+            <span v-on:click="sendNewLabel($event)" class="renameCard">(V)</span>
+            <span v-on:click="toggleEditiging()" class="renameCard">(X)</span>
+        </div>
         <p>Type : {{wallet.type}}</p>
     </div>
 </template>
@@ -17,7 +24,8 @@ export default {
     props: ['wallet', 'index'],
     data(){
         return{
-            uri: "http://localhost:3000"
+            uri: "http://localhost:3000",
+            isEditing: false,
         }
     },
     methods:{
@@ -37,11 +45,37 @@ export default {
                 this.$emit('error', error.response.data)
             });
         },
+        sendNewLabel(event){
+            this.isEditing = !this.isEditing
+            let wallet_id = this.$props.wallet.id
+            console.log(event.target.parentNode.children)
+            let newValue = event.target.parentNode.children[0].value
+            if(newValue === ""){
+                this.$emit("error", "The label is invalid")
+                return;
+            }
+            axios.post(this.uri+"/wallets/rename", {
+                wallet_id : wallet_id,
+                label : newValue,
+            }, {
+                headers: {token : toolbox.readCookie("Token")}
+            }).then((response) => {
+                if (response.status === 200) {
+                    this.$props.wallet.label = newValue
+                    this.$emit("sucess", response.data, false)
+                }
+            }).catch((error) => {
+                this.$emit("error", error.response.data)
+            });
+        },
         fetchAssets(event){
-            if (event.target.className !== "deleteCard"){
+            if (event.target.className !== "deleteCard" && event.target.className !== "renameCard"){
                 this.$router.push({ name: 'Asset', params:{id:this.wallet.id} })
             }
-        }
+        },
+        toggleEditiging(){
+            this.isEditing = !this.isEditing
+        },
     }
     
 }
