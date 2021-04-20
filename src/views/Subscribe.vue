@@ -1,13 +1,11 @@
 <template>
   <Menu />
-  <div class="subscribe">
-    <h1>Subscribe page</h1>
-
+  <div id="subscribeContainer">
     <!-- Create a new account form -->
-    <FormSubscribe @valueNameChanged="onValueNameChanged" @valueSurnameChanged="onValueSurnameChanged" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged"
+    <FormSubscribe id="formSubscribeComponent" @valueNameChanged="onValueNameChanged" @valueSurnameChanged="onValueSurnameChanged" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged"
                    @valuePasswordConfirmChanged="onValuePasswordConfirmChanged"
     />
-    <button @click="createUser()">
+    <button id="createButton" class="button" @click="createUser()">
       Create my account
     </button>
   </div>
@@ -99,3 +97,31 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+#subscribeContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto;
+  margin-left: auto;
+  width: 60rem;
+  max-width: 80vw;
+}
+
+#formSubscribeComponent{
+  width: 60rem;
+  max-width: 80vw;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+#createButton{
+  margin-top: 7.5vh;
+}
+
+</style>
