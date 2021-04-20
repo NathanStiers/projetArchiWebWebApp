@@ -102,34 +102,9 @@ export default {
   margin-top: 7.5vh;
 }
 
-.button {
-  text-align: center;
-	background-color: #42b983;
-	border-radius: 30px;
-	border: 1px solid #18ab29;
-	cursor: pointer;
-	color: #fff;
-	font-size: 1.2rem;
-	padding: 1rem;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #2f6627;
-  min-width : 18vw;
-  min-height : 1.5vh;
-}
-
-.button:hover {
-	background-color:#5cbf92;
-}
-
 @media all and (max-width:630px){
   #subAndLog{
-    margin-top : 3.5vh;
     flex-flow: column nowrap;
-  }
-
-  .button{
-    width : 70vw;
-    margin-top : 1rem;
   }
 }
 

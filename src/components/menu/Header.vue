@@ -47,25 +47,6 @@ export default {
   color: #42b983;
 }
 
-#appContainer{
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  height: 13vmin;
-  margin-bottom: 7vmin;
-}
-
-#logo{
-  margin-right: auto;
-}
-
-#logo img{
-  height: 13vmin;
-  width: auto;
-  margin-left: 1vmin;
-  margin-right: auto;
-}
-
 .routerlink{
   margin-right: 5vmin;
 }
