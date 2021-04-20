@@ -1,16 +1,16 @@
 <template>
   <Menu />
-  <div class="login">
-    <h1>Login page</h1>
-
+  <div id="loginContainer">
     <!-- Login form -->
-    <FormLogin id="formLogin" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged" />
-    <button @click="forgotPassword()">
-      I forgot my password
-    </button>
-    <button @click="connectUser()">
-      Send my credentials
-    </button>
+    <FormLogin id="formLoginComponent" @valueMailChanged="onValueMailChanged" @valuePasswordChanged="onValuePasswordChanged" />
+    <div id="forgotAndConnect">
+      <button class="button buttonOther" @click="forgotPassword()">
+        Reset password
+      </button>
+      <button class="button" @click="connectUser()">
+        Connect
+      </button>
+    </div>
   </div>
 </template>
 
@@ -100,3 +100,42 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+#loginContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto;
+  margin-left: auto;
+  width: 60rem;
+  max-width: 80vw;
+}
+
+#formLoginComponent{
+  width: 60rem;
+  max-width: 80vw;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+#forgotAndConnect {
+  width: 60rem;
+  max-width: 80vw;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  margin-top: 7.5vh;
+}
+
+@media all and (max-width:630px){
+  #forgotAndConnect{
+    flex-flow: column-reverse nowrap;
+  }
+}
+
+</style>
