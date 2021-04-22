@@ -1,18 +1,18 @@
 <template>
-  <div class="walletCard" @click="fetchAssets($event)">
-    <div class="deleteCard" @click="deleteWallet()">
+  <div class="walletCardContainer" @click="fetchAssets($event)">
+    <div class="deleteButton" @click="deleteWallet()">
       X
     </div>
     <p>Wallet {{ index+1 }}</p>
-    <p v-if="!isEditing" class="renameCard" @click="toggleEditiging()">
+    <p v-if="!isEditing" @click="toggleEditiging()">
       {{ wallet.label }}
     </p>
 
     <!-- Change the name of a the current wallet form -->
-    <div v-else class="renameCard">
-      <input type="text" :placeholder="wallet.label" :value="wallet.label" class="renameCard">
-      <span class="renameCard" @click="sendNewLabel($event)">(V)</span>
-      <span class="renameCard" @click="toggleEditiging()">(X)</span>
+    <div v-else class="renameContainer">
+      <input type="text" :placeholder="wallet.label" :value="wallet.label">
+      <span class="acceptLogo" @click="sendNewLabel($event)">V</span>
+      <span class="abortLogo" @click="toggleEditiging()">X</span>
     </div>
     <p>Type : {{ wallet.type }}</p>
   </div>
@@ -62,7 +62,6 @@ export default {
         sendNewLabel(event){
             this.isEditing = !this.isEditing
             let wallet_id = this.$props.wallet.id
-            console.log(event.target.parentNode.children)
             let newValue = event.target.parentNode.children[0].value
             if(newValue === ""){
                 this.$emit("error", "The label is invalid")
@@ -76,14 +75,14 @@ export default {
             }).then((response) => {
                 if (response.status === 200) {
                     this.$props.wallet.label = newValue
-                    this.$emit("sucess", response.data, false)
+                    this.$emit("sucess", response.data, true)
                 }
             }).catch((error) => {
                 this.$emit("error", error.response.data)
             });
         },
         fetchAssets(event){
-            if (event.target.className !== "deleteCard" && event.target.className !== "renameCard"){
+            if (event.target.className.indexOf("walletCardContainer") !== -1){
                 this.$router.push({ name: 'Asset', params:{id:this.wallet.id} })
             }
         },
@@ -97,31 +96,47 @@ export default {
 
 <style scoped>
 
-.walletCard{
+.walletCardContainer{
     border: thin solid black;
-    min-height: 15.5rem;
-    min-width: 60vmin;
-    max-height: 15.5rem;
-    max-width: 70vmin;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    font-size: large;
-    margin-bottom: 10%;
+    font-size: 1.2rem;
     cursor: pointer;
+    height: 15rem;
+    width: 25rem;
+    max-height: 40vh;
+    max-width: 80vw;
+    margin: 1rem;
+    overflow: hidden;
 }
 
-.deleteCard{
+.deleteButton{
     align-self: flex-end;
     margin-right: 5%;
     color: black;
-    cursor: url("../../assets/danger-cursor.png"), auto;
     font-size: larger;
 }
 
-.deleteCard:hover{
+.deleteButton:hover{
     color: red;
+}
+
+.renameContainer{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 25%;
+}
+
+.renameContainer > input {
+    height: 1.2rem;
+}
+
+@media all and (max-width:630px){
+    
 }
 
 </style>

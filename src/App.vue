@@ -84,6 +84,26 @@ button {
   margin-right: auto;
 }
 
+.acceptLogo{
+  font-size: larger;
+  font-weight: bold;
+  margin-left: 5%;
+}
+
+.acceptLogo:hover{
+  color: green;
+}
+
+.abortLogo{
+  font-size: larger;
+  font-weight: bold;
+  margin-left: 5%;
+}
+
+.abortLogo:hover{
+  color: red;
+}
+
 @media all and (max-width:630px){
   .button{
     align-self: center;

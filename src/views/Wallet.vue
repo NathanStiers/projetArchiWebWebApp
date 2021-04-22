@@ -1,20 +1,24 @@
 <template>
   <Menu />
+  <div id="walletContainer">
 
-  <!-- Search form -->
-  <input id="searchWallet" v-model="searchLabel" type="text" placeholder="Search a wallet"
-         @keyup="search"
-  >
-  <div class="wallet">
-    <!-- Shows all the user's wallets -->
-    <WalletCard v-for="(wallet, index) in walletList" :key="wallet.id" class="walletItem" :wallet="wallet"
-                :index="index" @sucess="onSuccess" @error="onError"
-    />  
-    
-    <!-- Add wallet form -->
-    <AddWalletCard v-if="!maxReached" class="walletItem" :types="types" @sucess="onSuccess"
-                   @error="onError"
-    />
+    <!-- Search form -->
+    <input id="searchWallet" v-model="searchLabel" type="text" placeholder="Search a wallet"
+          @keyup="search"
+    >
+
+    <div id="walletItemContainer">
+
+      <!-- Shows all the user's wallets -->
+      <WalletCard v-for="(wallet, index) in walletList" :key="wallet.id" class="walletItem" :wallet="wallet"
+                  :index="index" @sucess="onSuccess" @error="onError"
+      />  
+      
+      <!-- Add wallet form -->
+      <AddWalletCard v-if="!maxReached" class="walletItem" :types="types" @sucess="onSuccess"
+                    @error="onError"
+      />
+    </div>
   </div>
 </template>
 
@@ -96,14 +100,49 @@ export default {
 
 <style scoped>
 
-.wallet{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
+#walletContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  padding-right: 2vw;
+  padding-left: 2vw;
 }
 
-.walletItem{
-  padding: 2%;
+#searchWallet{
+  height: 2rem;
+  width: 24rem; 
+  max-width: 60vw;
+  align-self: flex-end;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 5vh;
+  border-radius: 30px;
+  padding-left: 1rem;
+  font-size: 1.05rem;
+}
+
+#searchWallet:focus{
+  outline: none;
+}
+
+#walletItemContainer{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+@media all and (max-width:630px){
+  #walletContainer{
+    padding-right: none;
+    padding-left: none;
+  }
+  #searchWallet{
+    align-self: center;
+  }
+  #walletItemContainer{
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 </style>
