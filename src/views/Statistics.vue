@@ -1,20 +1,22 @@
 <template>
   <Menu />
-  <div class="statistics">
-    <h1>Statistics page</h1>
-    <div v-if="(typeof howMuchType !== 'undefined' && countUniqueAssets)">
-      <p>Number of crypto-assets : {{ howMuchType["Crypto-assets"] }} </p>
-      <p>Number of stocks : {{ howMuchType.Stocks }} </p>
-      <p>Number of unique assets : {{ countUniqueAssets }} </p>
-      <p>Total P/L (of crypto-assets) : {{ totalProfit.toFixed(2) }} €</p>
-      <p>Best Unit Cost Price :  {{ pruComparison.best[0] }}  =>  {{ pruComparison.best[1].toFixed(2) }}€</p>
-      <p>Worst Unit Cost Price : {{ pruComparison.worst[0] }}  =>  {{ pruComparison.worst[1].toFixed(2) }}€</p>
-      <p>Best value (of crypto-assets) : {{ valueComparison.best[0] }}  =>  {{ valueComparison.best[1].toFixed(2) }}€</p>
-      <p>Worst value (of crypto-assets) : {{ valueComparison.worst[0] }}  =>  {{ valueComparison.worst[1].toFixed(2) }}€</p>
-    </div>
-    <div v-else>
-      <p>You don't have any asset for the moment</p>
-    </div>
+  <div id="statisticsContainer">
+    <fieldset>
+      <legend>Your investments statistics</legend>
+      <div v-if="(typeof howMuchType !== 'undefined' && countUniqueAssets)">
+        <p>Number of crypto-assets : {{ howMuchType["Crypto-assets"] }} </p>
+        <p>Number of stocks : {{ howMuchType.Stocks }} </p>
+        <p>Number of unique assets : {{ countUniqueAssets }} </p>
+        <p>Total P/L (of crypto-assets) : {{ totalProfit.toFixed(2) }} €</p>
+        <p>Best Unit Cost Price :  {{ pruComparison.best[0] }}  =>  {{ pruComparison.best[1].toFixed(2) }}€</p>
+        <p>Worst Unit Cost Price : {{ pruComparison.worst[0] }}  =>  {{ pruComparison.worst[1].toFixed(2) }}€</p>
+        <p>Best value (of crypto-assets) : {{ valueComparison.best[0] }}  =>  {{ valueComparison.best[1].toFixed(2) }}€</p>
+        <p>Worst value (of crypto-assets) : {{ valueComparison.worst[0] }}  =>  {{ valueComparison.worst[1].toFixed(2) }}€</p>
+      </div>
+      <div v-else>
+        <p>You don't have any asset for the moment</p>
+      </div>
+    </fieldset>
   </div>
 </template>
 
@@ -71,3 +73,32 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+legend {
+    font-size: 1.5rem;
+}
+
+#statisticsContainer{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto;
+  margin-left: auto;
+  width: 60rem;
+  max-width: 80vw;
+}
+
+p{
+  font-size: 1.05rem;
+}
+
+fieldset{
+  width: 60rem;
+  max-width: 70vw;
+  padding: 2rem;
+}
+
+</style>
