@@ -126,7 +126,7 @@ export default {
 
 #walletItemContainer{
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   justify-content: space-between;
 }
 

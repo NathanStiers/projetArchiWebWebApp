@@ -10,9 +10,9 @@
   <vue-final-modal v-model="showModal" classes="modalContainer" content-class="modalContent">
     <span class="modalTitle">Add a new wallet</span>
     <div class="modalContentForm">
-      Label : <input v-model="label" type="text" maxlength="50">
+      <label for="label">Label : </label><input id="label" v-model="label" type="text" maxlength="50">
       <br><br>
-      Type : <select v-model="type">
+      <label for="type">Type :</label><select id="type" v-model="type">
         <option v-for="typeItem in types" :key="typeItem.id" :type="typeItem">
           {{ typeItem }}
         </option>

@@ -104,8 +104,8 @@ export default {
     align-items: center;
     font-size: 1.2rem;
     cursor: pointer;
-    height: 15rem;
-    width: 25rem;
+    min-height: 15rem;
+    min-width: 25rem;
     max-height: 40vh;
     max-width: 80vw;
     margin: 1rem;
@@ -136,7 +136,12 @@ export default {
 }
 
 @media all and (max-width:630px){
-    
+    .walletCardContainer{
+        min-height: inherit;
+        min-width: inherit;
+        height: 15rem;
+        width: 25rem;
+    }
 }
 
 </style>
