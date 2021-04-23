@@ -2,7 +2,9 @@
   <Menu />
   <div id="premiumContainer">
     <div id="explanationContainer">
-      <p id="titleExplanation">What are the advantages of the premium mode?</p>
+      <p id="titleExplanation">
+        What are the advantages of the premium mode?
+      </p>
       <p>
         For the moment, users with a basic subscription can't create more than 3 wallets.<br>
         A premium user will have the opportunity to create up to 10 wallets!
