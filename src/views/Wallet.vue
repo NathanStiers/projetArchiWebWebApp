@@ -10,12 +10,12 @@
     <div id="walletItemContainer">
 
       <!-- Shows all the user's wallets -->
-      <WalletCard v-for="(wallet, index) in walletList" :key="wallet.id" class="walletItem" :wallet="wallet"
+      <WalletCard v-for="(wallet, index) in walletList" :key="wallet.id" :wallet="wallet"
                   :index="index" @sucess="onSuccess" @error="onError"
       />  
       
       <!-- Add wallet form -->
-      <AddWalletCard v-if="!maxReached" class="walletItem" :types="types" @sucess="onSuccess"
+      <AddWalletCard v-if="!maxReached" :types="types" @sucess="onSuccess"
                     @error="onError"
       />
     </div>

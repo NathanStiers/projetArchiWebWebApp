@@ -1,9 +1,8 @@
 <template>
   <Menu />
-  <div class="premium">
-    <h1>Premium page</h1>
-    <div>
-      <p>What are the advantages of the premium mode?</p>
+  <div id="premiumContainer">
+    <div id="explanationContainer">
+      <p id="titleExplanation">What are the advantages of the premium mode?</p>
       <p>
         For the moment, users with a basic subscription can't create more than 3 wallets.<br>
         A premium user will have the opportunity to create up to 10 wallets!
@@ -70,3 +69,38 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+#premiumContainer{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto;
+  margin-left: auto;
+  width: 60rem;
+  max-width: 80vw;
+}
+
+#explanationContainer{
+  font-size: 1.05rem;
+  line-height: 1.2rem;
+  margin-bottom: 6vh;
+  border: black thin solid;
+  padding: 1.5rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+#explanationContainer::-webkit-scrollbar {
+  display: none;
+}
+
+#titleExplanation{
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 6vh;
+}
+
+</style>
