@@ -79,7 +79,7 @@ export default {
           d.setTime(d.getTime() + 6 * 60 * 60 * 1000);
           let expires = "expires=" + d.toUTCString();
           let data_user = response.data;
-          document.cookie = "Token=" + data_user.token + ";" + expires + ";path=/"
+          document.cookie = "Token=" + data_user + ";" + expires + ";path=/"
           this.$router.replace({ name: 'Wallet' })
           this.onSuccess("Account created")
         }
