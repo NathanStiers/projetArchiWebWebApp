@@ -18,12 +18,12 @@
       <br><br>
       <label for="quantity">Quantity : </label>
       <input id="quantity" v-model="quantity" type="number" name="quantity"
-                                                      step="0.000000001"
+             step="0.000000001"
       >
       <br><br>
       <label for="invested">Amount invested : </label>
       <input id="invested" v-model="invested_amount" type="number" name="invested_amount"
-                                                             step="0.001"
+             step="0.001"
       >
     </div>
     <div class="modalAction">
