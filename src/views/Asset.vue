@@ -1,19 +1,19 @@
 <template>
   <Menu />
-  <h1>Asset page</h1>
-
-  <!-- Search an asset based on label form -->
-  <input id="searchAsset" v-model="searchLabel" type="text" placeholder="Search an asset"
-         @keyup="search"
-  >
-  <div class="asset">
-    <!-- List of all the assets in the user's selected wallet -->
-    <AssetCard v-for="asset in assetList" :key="asset.ticker" class="assetItem" :type="type"
-               :asset="asset" :api-data="apiData[asset.ticker]" @sucess="onSuccess" @error="onError"
-    />  
-    
-    <!-- Add an asset form -->
-    <AddAssetCard class="assetItem" :asset-list="assetsFromTypeList" @sucess="onSuccess" @error="onError" />
+  <div id="assetContainer">
+    <!-- Search an asset based on label form -->
+    <input id="searchAsset" v-model="searchLabel" type="text" placeholder="Search an asset"
+           @keyup="search"
+    >
+    <div id="assetItemContainer">
+      <!-- List of all the assets in the user's selected wallet -->
+      <AssetCard v-for="asset in assetList" :key="asset.ticker" :type="type"
+                 :asset="asset" :api-data="apiData[asset.ticker]" @sucess="onSuccess" @error="onError"
+      />  
+      
+      <!-- Add an asset form -->
+      <AddAssetCard :asset-list="assetsFromTypeList" @sucess="onSuccess" @error="onError" />
+    </div>
   </div>
 </template>
 
@@ -62,6 +62,9 @@ export default {
           this.assetList = response.data.resultSQL
           this.completeList = _.cloneDeep(this.assetList)
           this.type = response.data.type
+          if(this.type !== "Crypto-assets"){
+            this.onError("The " + this.type + " API is not linked yet")
+          }
         } else if(response.status === 204) {
           this.onError(response.data)
         } 
@@ -99,14 +102,49 @@ export default {
 
 <style scoped>
 
-.asset{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
+#assetContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  padding-right: 2vw;
+  padding-left: 2vw;
 }
 
-.assetItem{
-  padding: 2%;
+#searchAsset{
+  height: 2rem;
+  width: 24rem; 
+  max-width: 60vw;
+  align-self: flex-end;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 5vh;
+  border-radius: 30px;
+  padding-left: 1rem;
+  font-size: 1.05rem;
+}
+
+#searchAsset:focus{
+  outline: none;
+}
+
+#assetItemContainer{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+@media all and (max-width:630px){
+  #assetContainer{
+    padding-right: none;
+    padding-left: none;
+  }
+  #searchAsset{
+    align-self: center;
+  }
+  #assetItemContainer{
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 </style>

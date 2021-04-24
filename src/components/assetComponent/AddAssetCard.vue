@@ -1,30 +1,36 @@
 <template>
   <!-- Asset creation invitation window -->
-  <div class="addWallet" @click="toggleModal()">
+  <div id="addAssetContainer" @click="toggleModal()">
     <p>+</p>
     <p>Add a new</p>
     <p>asset</p>
   </div>
 
   <!-- Asset creation by modal window -->
-  <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
-    <span class="modal__title">Add a new asset</span>
-    <div class="modal__content">
+  <vue-final-modal v-model="showModal" classes="modalContainer" content-class="modalContent">
+    <span class="modalTitle">Add a new asset</span>
+    <div class="modalContentForm">
       <select v-model="assetName">
         <option v-for="asset in assetList" :key="asset.id">
           {{ asset.label }}
         </option>
       </select>
       <br><br>
-      Quantity : <input v-model="quantity" type="number" name="quantity" step="0.000000001"> €
+      <label for="quantity">Quantity : </label>
+      <input id="quantity" v-model="quantity" type="number" name="quantity"
+                                                      step="0.000000001"
+      >
       <br><br>
-      Amount invested : <input v-model="invested_amount" type="number" name="invested_amount" step="0.001"> units
+      <label for="invested">Amount invested : </label>
+      <input id="invested" v-model="invested_amount" type="number" name="invested_amount"
+                                                             step="0.001"
+      >
     </div>
-    <div class="modal__action">
-      <button class="vfm-btn" @click="addAsset()">
+    <div class="modalAction">
+      <button class="button" @click="addAsset()">
         Confirm
       </button>
-      <button class="vfm-btn" @click="toggleModal()">
+      <button class="button buttonOther" @click="toggleModal()">
         Cancel
       </button>
     </div>
@@ -95,32 +101,35 @@ export default {
 
 <style scoped>
 
-.addWallet{
+#addAssetContainer{
     border: thin solid black;
-    min-height: 30vmin;
-    min-width: 60vmin;
-    max-height: 60vmin;
-    max-width: 70vmin;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    font-size: large;
+    font-size: 1.3rem;
+    font-weight: bold;
     cursor: pointer;
+    height: 15rem;
+    width: 25rem;
+    max-height: 40vh;
+    max-width: 80vw;
+    margin: 1rem;
 }
 
-::v-deep .modal-container {
+::v-deep .modalContainer {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-::v-deep .modal-content {
+
+::v-deep .modalContent {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 50%;
+  min-height: 70%;
   max-height: 90%;
-  min-width: 33%;
+  min-width: 60%;
   max-width: 90%;
   margin: 0 1rem;
   padding: 1rem;
@@ -128,28 +137,79 @@ export default {
   border-radius: 0.25rem;
   background: #fff;
 }
-.modal__title {
+
+.modalTitle {
   font-size: larger;
   font-weight: bolder;
-  margin-bottom: 10%;
+  margin-bottom: 15%;
+  align-self: center;
 }
-.modal__content {
+
+.modalContentForm {
   flex-grow: 1;
   overflow-y: auto;
   display: flex;
   flex-flow: column nowrap;
+  align-self: center;
+  min-height: 35%;
+  max-height: 45%;
+  min-width: 30%;
+  max-width: 45%;
 }
-.modal__action {
+
+.modalContentForm > input, .modalContentForm > select{
+  font-size: 1.1rem;
+}
+
+.modalAction {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  align-items: space-around;
   flex-shrink: 0;
   padding: 1rem 0 0;
 }
-.modal__close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+
+button {
+  text-align: center;
+	background-color: #42b983;
+	border-radius: 30px;
+	border: 1px solid #18ab29;
+	cursor: pointer;
+	color: #fff;
+	font-size: 1.2rem;
+	padding: 1rem;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+  min-width : 18vw;
+  min-height : 1.5vh;
+}
+
+.buttonOther {
+  background-color: #364a5e !important;
+  border: 1px solid #23313e !important;
+  text-shadow:0px 1px 0px #1a242d !important;
+}
+
+.buttonOther:hover {
+  background-color: #49647e !important;
+}
+
+.button:hover {
+	background-color:#5cbf92;
+}
+
+@media all and (max-width:630px){
+  .modalTitle{
+    margin-bottom: 40%;
+  }
+  .modalAction {
+    flex-direction: column;
+  }
+  .button{
+    align-self: center;
+    width : 70vw;
+    margin-top : 1rem;
+  }
 }
 
 </style>

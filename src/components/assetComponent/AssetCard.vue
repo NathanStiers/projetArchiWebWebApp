@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="assetCard">
-      <div class="infoCard" @click="toggleModal()">
+    <div class="assetCardContainer">
+      <div class="infoButton" @click="toggleModal()">
         (?)
       </div>
       <p>{{ asset.label }} <i><small>{{ asset.ticker }}</small></i> </p>
@@ -10,20 +10,20 @@
       </p>
 
       <!-- Change the quantity of a specific asset form -->
-      <div v-else>
-        Quantity : <input type="text" :placeholder="asset.quantity" :value="asset.quantity">
-        <span @click="sendNewValueQty($event)">(V)</span>
-        <span @click="toggleEditigingQty()">(X)</span>
+      <div v-else class="changeContainer">
+        <input type="text" :placeholder="asset.quantity" :value="asset.quantity">
+        <span class="acceptLogo" @click="sendNewValueQty($event)">(V)</span>
+        <span class="abortLogo" @click="toggleEditigingQty()">(X)</span>
       </div>
       <p v-if="!isEditingInvest" @click="toggleEditigingInvest()">
         Amount invested : {{ asset.invested_amount }} €
       </p>
 
       <!-- Change the initial investment of a specific asset form -->
-      <div v-else>
-        Amount invested : <input type="text" :placeholder="asset.invested_amount" :value="asset.invested_amount">
-        <span @click="sendNewValueInvest($event)">(V)</span>
-        <span @click="toggleEditigingInvest()">(X)</span>
+      <div v-else class="changeContainer">
+        <input type="text" :placeholder="asset.invested_amount" :value="asset.invested_amount">
+        <span class="acceptLogo" @click="sendNewValueInvest($event)">(V)</span>
+        <span class="abortLogo" @click="toggleEditigingInvest()">(X)</span>
       </div>
       <p v-if="type=='Crypto-assets'">
         Current value : {{ (asset.quantity * apiData.price).toFixed(2) }} €
@@ -31,9 +31,9 @@
     </div>
 
     <!-- Details of a specific asset -->
-    <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
-      <span class="modal__title">Deeper information</span>
-      <div class="modal__content">
+    <vue-final-modal v-model="showModal" classes="modalContainer" content-class="modalContent">
+      <span class="modalTitle">Deeper information</span>
+      <div class="modalContentForm">
         <p>Unit cost price : {{ (asset.invested_amount/asset.quantity).toFixed(2) }} €</p>
         <p v-if="type=='Crypto-assets'">
           Current value : {{ (asset.quantity * apiData.price).toFixed(2) }} €
@@ -48,11 +48,11 @@
           Market cap : {{ (apiData.market_cap).toFixed(2) }} €
         </p>
       </div>
-      <div class="modal__action">
-        <button class="vfm-btn" @click="deleteAsset()">
+      <div class="modalAction">
+        <button class="button buttonOther" @click="deleteAsset()">
           Delete asset
         </button>
-        <button class="vfm-btn" @click="toggleModal()">
+        <button class="button" @click="toggleModal()">
           Close window
         </button>
       </div>
@@ -176,40 +176,70 @@ export default {
 
 <style scoped>
 
-.assetCard{
+.assetCardContainer{
     border: thin solid black;
-    min-height: 30vmin;
-    min-width: 60vmin;
-    max-height: 60vmin;
-    max-width: 70vmin;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    font-size: large;
-    margin-bottom: 10%;
-}
-
-.infoCard{
-    align-self: flex-end;
-    margin-right: 2%;
-    margin-top: 1%;
+    font-size: 1rem;
     cursor: pointer;
+    min-height: 15rem;
+    min-width: 25rem;
+    max-height: 40vh;
+    max-width: 80vw;
+    margin: 1rem;
+    overflow: hidden;
+}
+
+.infoButton{
+    align-self: flex-end;
+    margin-right: 5%;
+    color: black;
+    font-size: larger;
+}
+
+.infoButton:hover{
+    color: green;
+}
+
+.changeContainer{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 25%;
+}
+
+.changeContainer > input {
+    height: 1.2rem;
+}
+
+@media all and (max-width:630px){
+    .assetCardContainer{
+        min-height: inherit;
+        min-width: inherit;
+        height: 15rem;
+        width: 25rem;
+    }
 }
 
 
-::v-deep .modal-container {
+/*///////////*/
+
+::v-deep .modalContainer {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-::v-deep .modal-content {
+
+::v-deep .modalContent {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 50%;
+  min-height: 70%;
   max-height: 90%;
-  min-width: 33%;
+  min-width: 60%;
   max-width: 90%;
   margin: 0 1rem;
   padding: 1rem;
@@ -217,29 +247,82 @@ export default {
   border-radius: 0.25rem;
   background: #fff;
 }
-.modal__title {
+
+.modalTitle {
   font-size: larger;
   font-weight: bolder;
-  margin-bottom: 10%;
+  margin-bottom: 15%;
+  align-self: center;
 }
-.modal__content {
+
+.modalContentForm {
   flex-grow: 1;
   overflow-y: auto;
   display: flex;
   flex-flow: column nowrap;
+  align-self: center;
+  min-height: 35%;
+  max-height: 45%;
+  min-width: 30%;
+  max-width: 45%;
 }
-.modal__action {
+
+.modalContentForm > input, .modalContentForm > select{
+  font-size: 1.1rem;
+}
+
+.modalAction {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  align-items: space-around;
   flex-shrink: 0;
   padding: 1rem 0 0;
 }
-.modal__close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+
+button {
+  text-align: center;
+	background-color: #42b983;
+	border-radius: 30px;
+	border: 1px solid #18ab29;
+	cursor: pointer;
+	color: #fff;
+	font-size: 1.2rem;
+	padding: 1rem;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+  min-width : 18vw;
+  min-height : 1.5vh;
 }
+
+.buttonOther {
+  background-color: #364a5e !important;
+  border: 1px solid #23313e !important;
+  text-shadow:0px 1px 0px #1a242d !important;
+}
+
+.buttonOther:hover {
+  background-color: #49647e !important;
+}
+
+.button:hover {
+	background-color:#5cbf92;
+}
+
+@media all and (max-width:630px){
+  .modalTitle{
+    margin-bottom: 40%;
+  }
+  .modalAction {
+    flex-direction: column;
+  }
+  .button{
+    align-self: center;
+    width : 70vw;
+    margin-top : 1rem;
+  }
+}
+
+
 
 </style>
 
