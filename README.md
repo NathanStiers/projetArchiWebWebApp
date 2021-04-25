@@ -2,7 +2,7 @@
 - Check that all dependencies are installed (npm install / npm update).
 - Check that the data in the .env are up to date.
 - Run the API in first place.
-- Use the "npm run serve" command to start the server or "npm run dev" if nodemon need to be started.
+- Use the "npm run serve" command to start the frontend or "npm run dev" if nodemon need to be started (it will take some time).
 - You are all set !
 
 # How to navigate on the website
