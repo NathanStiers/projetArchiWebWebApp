@@ -24,7 +24,7 @@ import Menu from '@/components/menu/Header.vue'
 import AssetCard from '@/components/assetComponent/AssetCard.vue'
 import AddAssetCard from '@/components/assetComponent/AddAssetCard.vue'
 import axios from "axios";
-var _ = require('lodash');
+var _cloneDeep = require('lodash.clonedeep');
 
 export default {
   name: 'Asset',
@@ -60,7 +60,7 @@ export default {
           this.apiData = response.data.apiInfos
           this.assetsFromTypeList = response.data.assetsFromType
           this.assetList = response.data.resultSQL
-          this.completeList = _.cloneDeep(this.assetList)
+          this.completeList = _cloneDeep(this.assetList)
           this.type = response.data.type
           if(this.type !== "Crypto-assets"){
             this.onError("The " + this.type + " API is not linked yet")
@@ -74,7 +74,7 @@ export default {
     },
     search(){
       let pattern = this.searchLabel.toUpperCase()
-      this.assetList = _.cloneDeep(this.completeList)
+      this.assetList = _cloneDeep(this.completeList)
       if(pattern === ""){
         return;
       }

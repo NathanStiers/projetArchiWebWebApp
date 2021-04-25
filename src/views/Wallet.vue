@@ -27,7 +27,7 @@ import Menu from '@/components/menu/Header.vue'
 import WalletCard from '@/components/walletComponent/WalletCard.vue'
 import AddWalletCard from '@/components/walletComponent/AddWalletCard.vue'
 import axios from "axios";
-var _ = require('lodash');
+var _cloneDeep = require('lodash.clonedeep');
 
 export default {
   name: 'Wallet',
@@ -60,7 +60,7 @@ export default {
       }).then((response) => {
         if (response.status === 200) {
           this.walletList = response.data.user.wallet_list
-          this.completeList = _.cloneDeep(this.walletList)
+          this.completeList = _cloneDeep(this.walletList)
           this.maxReached = response.data.max_reached
           this.types = response.data.types
         }
@@ -70,7 +70,7 @@ export default {
     },
     search(){
       let pattern = this.searchLabel.toUpperCase()
-      this.walletList = _.cloneDeep(this.completeList)
+      this.walletList = _cloneDeep(this.completeList)
       if(pattern === ""){
         return;
       }
