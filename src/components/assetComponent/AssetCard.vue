@@ -105,9 +105,6 @@ export default {
             let wallet_id = this.$router.currentRoute._rawValue.params.id
             let newValue = event.target.parentNode.children[0].value
             let id = this.$props.asset.id
-            console.log(newValue)
-            console.log(wallet_id)
-            console.log(id)
             if(newValue <= 0 || isNaN(newValue)){
                 this.$emit("error", "The quantity is invalid")
             }
