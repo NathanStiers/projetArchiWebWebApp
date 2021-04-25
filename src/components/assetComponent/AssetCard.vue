@@ -114,7 +114,7 @@ export default {
             axios.post(this.uri+"/assets/changeQty", {
                 wallet_id : wallet_id,
                 quantity : newValue,
-                aw_id : id
+                id : id
             }, {
                 headers: {token : toolbox.readCookie("Token")}
             }).then((response) => {
@@ -137,7 +137,7 @@ export default {
             axios.post(this.uri+"/assets/changeInvestment", {
                 wallet_id : wallet_id,
                 invested_amount : newValue,
-                aw_id : id
+                id : id
             }, {
                 headers: {token : toolbox.readCookie("Token")}
             }).then((response) => {
